@@ -15,6 +15,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model test_table { 
-    id Int @default(autoincrement()) @id
+model collections {
+  id          String        @id @default(uuid())
+  title       String
+  description String
+  ownerFid    Int
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @default(now())
+  deleted_at  DateTime?
+  saved_casts saved_casts[]
+}
+
+model saved_casts {
+  id            String      @id @default(uuid())
+  castHash      String
+  ownerFid      Int
+  collectionId  collections @relation(fields: [collectionsId], references: [id])
+  collectionsId String
 }

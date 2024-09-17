@@ -1,6 +1,3 @@
-"use server";
-
-import { PrismaClient } from "@prisma/client";
 import {
   Kysely,
   PostgresAdapter,
@@ -9,6 +6,7 @@ import {
 } from "kysely";
 import kyselyExtension from "prisma-extension-kysely";
 import { DB } from "./kysely/types";
+import { PrismaClient } from "./generated";
 
 // Sourced from here https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/nextjs-prisma-client-dev-practices
 const prismaClientSingleton = () => {

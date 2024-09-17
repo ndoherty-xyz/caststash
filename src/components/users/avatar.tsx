@@ -2,9 +2,16 @@ import Image from "next/image";
 
 export const Avatar = (props: {
   pfpUrl?: string;
-  size: "sm" | "md" | "lg";
+  size: "sm" | "md" | "lg" | "xl";
 }) => {
-  const pixelSize = props.size === "lg" ? 40 : props.size === "md" ? 24 : 16;
+  const pixelSize =
+    props.size === "xl"
+      ? 80
+      : props.size === "lg"
+      ? 40
+      : props.size === "md"
+      ? 24
+      : 16;
 
   if (props.pfpUrl) {
     return (

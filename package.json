@@ -7,7 +7,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:format": "npx prisma format --schema src/utils/prisma/schema.prisma",
+    "db:gen": "npx prisma generate --schema src/utils/prisma/schema.prisma",
+    "db:migrate:dev": "npx prisma migrate dev --schema src/utils/prisma/schema.prisma",
+    "db:migrate:deploy": "npx prisma migrate deploy --schema src/utils/prisma/schema.prisma"
   },
   "dependencies": {
     "@neynar/nodejs-sdk": "^1.52.1",
