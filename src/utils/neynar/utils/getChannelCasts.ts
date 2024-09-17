@@ -8,7 +8,6 @@ export const getSomeoneBuildChannelCasts = async ({
 }: {
   cursor?: string;
 }): Promise<{ casts: Cast[]; cursor: string | undefined }> => {
-  console.log(cursor);
   const res = await neynarClient.fetchFeedByChannelIds(["someone-build"], {
     cursor: cursor ? cursor : undefined,
     limit: 20,

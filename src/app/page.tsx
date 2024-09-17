@@ -1,9 +1,9 @@
-import { Casts } from "@/components/CastGrid/Casts";
+import { CastGrid } from "@/components/cast-grid/cast-grid";
 
 export default function Home() {
   return (
-    <div className="p-6 bg-slate-100">
-      <Casts />
+    <div className="p-6">
+      <CastGrid />
     </div>
   );
 }

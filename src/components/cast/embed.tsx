@@ -4,6 +4,7 @@ import {
   EmbedUrl,
 } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import Image from "next/image";
+import { QuoteCast } from "./quote-cast";
 
 export const Embed = (props: { embed: EmbeddedCast }) => {
   if ("cast_id" in props.embed) {
@@ -41,5 +42,5 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
 };
 
 const CastEmbed = (props: { embed: EmbedCastId }) => {
-  return <>quote cast {props.embed.cast_id.hash}</>;
+  return <QuoteCast hash={props.embed.cast_id.hash} />;
 };

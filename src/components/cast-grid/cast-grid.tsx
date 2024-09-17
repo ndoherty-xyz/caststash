@@ -6,8 +6,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Masonry } from "masonic";
 import { useInView } from "react-intersection-observer";
 import { Cast } from "../cast/cast";
+import { useNeynarContext } from "@neynar/react";
 
-export const Casts = () => {
+export const CastGrid = () => {
+  const user = useNeynarContext();
+
   const { ref } = useInView({
     onChange: () => {
       castQuery.fetchNextPage();
