@@ -14,7 +14,7 @@ export const QuoteCast = (props: { hash: string }) => {
     return (
       <div
         style={{ height: 76 }}
-        className="border rounded-lg border-slate-300 p-2.5 flex flex-col gap-1.5"
+        className="border rounded-lg border-[#000000a] p-2.5 flex flex-col gap-1.5"
       ></div>
     );
   }
@@ -23,7 +23,7 @@ export const QuoteCast = (props: { hash: string }) => {
     return (
       <div
         style={{ height: 76 }}
-        className="border rounded-lg border-slate-300 p-2.5 flex flex-col gap-1.5"
+        className="border rounded-lg border-[#000000a] p-2.5 flex flex-col gap-1.5"
       >
         <p>Error loading cast :(</p>
       </div>
@@ -37,7 +37,7 @@ export const QuoteCast = (props: { hash: string }) => {
         castQuery.data?.author.username
       }/${props.hash.substring(0, 10)}`}
     >
-      <div className="border rounded-lg border-slate-300 p-2.5 flex flex-col gap-1.5">
+      <div className="border rounded-lg border-[#000000a] p-2.5 flex flex-col gap-1.5">
         <div className="flex flex-row gap-2">
           <Avatar size="sm" pfpUrl={castQuery.data?.author.pfp_url} />
           <p className="text-xs font-bold">

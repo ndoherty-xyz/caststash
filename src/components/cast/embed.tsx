@@ -32,8 +32,34 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
           aspectRatio,
         }}
       >
-        <p>test</p>
         <Image alt="" className="rounded-lg" fill src={props.embed.url} />
+      </div>
+    );
+  } else if (
+    !!props.embed.metadata.video &&
+    !!(props.embed.metadata.video as any).streams[0]
+  ) {
+    // Video case
+    const { height_px, width_px } = (props.embed.metadata.video as any)
+      .streams[0];
+    const aspectRatio =
+      width_px && height_px ? width_px / height_px : undefined;
+
+    return (
+      <div
+        style={{
+          width: "100%",
+          position: "relative",
+          height: "auto",
+          aspectRatio,
+        }}
+      >
+        <video
+          style={{ width: "100%", aspectRatio }}
+          className="rounded-lg"
+          src={props.embed.url}
+          controls
+        />
       </div>
     );
   }

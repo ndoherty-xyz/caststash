@@ -18,6 +18,9 @@ export type saved_casts = {
     castHash: string;
     ownerFid: number;
     collectionsId: string;
+    created_at: Generated<Timestamp>;
+    updated_at: Generated<Timestamp>;
+    deleted_at: Timestamp | null;
 };
 export type DB = {
     collections: collections;

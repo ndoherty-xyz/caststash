@@ -2,10 +2,14 @@ import Image from "next/image";
 
 export const Avatar = (props: {
   pfpUrl?: string;
-  size: "sm" | "md" | "lg" | "xl";
+  size: "sm" | "md" | "lg" | "xl" | "2xl";
+  noBorder?: boolean;
+  className?: string;
 }) => {
   const pixelSize =
-    props.size === "xl"
+    props.size === "2xl"
+      ? 120
+      : props.size === "xl"
       ? 80
       : props.size === "lg"
       ? 40
@@ -19,11 +23,17 @@ export const Avatar = (props: {
         style={{
           width: pixelSize,
           height: pixelSize,
-          borderWidth: 1,
           borderRadius: 999,
-          borderColor: "#000000a",
+          ...(props.noBorder
+            ? {}
+            : {
+                borderWidth: 1,
+
+                borderColor: "#000000a",
+              }),
           position: "relative",
         }}
+        className={props.className}
       >
         <Image
           alt="pfp"
@@ -40,13 +50,13 @@ export const Avatar = (props: {
   } else {
     return (
       <div
-        className="bg-gray-500"
+        className={`bg-gray-500 ${props.className}`}
         style={{
           width: pixelSize,
           height: pixelSize,
           borderWidth: 1,
           borderRadius: 999,
-          borderColor: "#00000030",
+          borderColor: "#000000a",
         }}
       />
     );
