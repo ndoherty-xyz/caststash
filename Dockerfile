@@ -31,4 +31,4 @@ EXPOSE $PORT
 
 RUN yarn build
 
-CMD ["sh", "-c", "yarn start"]
+CMD ["sh", "-c", "sleep 3 && yarn start"]
