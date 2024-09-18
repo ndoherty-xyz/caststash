@@ -21,7 +21,7 @@ export const Avatar = (props: {
 
   const borderSize =
     props.size === "2xl"
-      ? 4
+      ? 3
       : props.size === "xl"
       ? 2
       : props.size === "lg"

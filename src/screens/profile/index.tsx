@@ -1,7 +1,6 @@
 "use client";
 
 import { CollectionGrid } from "@/components/collections/collection-grid";
-import { ProfileHeader } from "@/components/profile/header";
 import { UserLikes } from "@/components/profile/user-likes";
 import { useAuth } from "@/hooks/useAuth";
 import { getUserByUsername } from "@/utils/neynar/utils/getUser";

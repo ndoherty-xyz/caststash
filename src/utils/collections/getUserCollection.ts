@@ -10,6 +10,9 @@ export const getUserCollections = async (args: {
       ownerFid: args.fid,
       deleted_at: null,
     },
+    orderBy: {
+      updated_at: "desc",
+    },
   });
 
   return res;

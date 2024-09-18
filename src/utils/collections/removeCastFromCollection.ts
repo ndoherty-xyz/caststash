@@ -3,7 +3,7 @@
 import { requireValidSigner } from "../neynar/utils/validateSignerUUID";
 import { prismaClient, saved_casts } from "../prisma";
 
-export const addCastToCollection = async (args: {
+export const removeCastFromCollection = async (args: {
   fid: number;
   signerUUID: string;
   castHash: string;
@@ -18,23 +18,16 @@ export const addCastToCollection = async (args: {
   if (!collection || args.fid !== collection.ownerFid)
     throw new Error("No permissions to add to this collection");
 
-  const res = await prismaClient.saved_casts.upsert({
+  const res = await prismaClient.saved_casts.update({
     where: {
       castHash_collectionsId: {
         castHash: args.castHash,
         collectionsId: args.collectionId,
       },
     },
-    create: {
-      castHash: args.castHash,
-      collectionId: {
-        connect: {
-          id: args.collectionId,
-        },
-      },
-    },
-    update: {
-      deleted_at: null,
+    data: {
+      deleted_at: new Date(),
+      updated_at: new Date(),
     },
   });
 

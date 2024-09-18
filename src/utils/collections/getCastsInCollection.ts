@@ -12,10 +12,16 @@ export const getCastsInCollection = async (args: {
   // get cast hashes for cursor from the collection
   const castHashes = await prismaClient.$kysely
     .selectFrom("saved_casts")
-    .select(["saved_casts.castHash", "created_at"])
-    .where("collectionsId", "=", args.collectionId)
-    .where("created_at", "<", args.cursor ? new Date(args.cursor) : new Date())
-    .where("deleted_at", "is", null)
+    .innerJoin("collections", "collections.id", "saved_casts.collectionsId")
+    .select(["saved_casts.castHash", "saved_casts.created_at"])
+    .where("collections.id", "=", args.collectionId)
+    .where("collections.deleted_at", "is", null)
+    .where(
+      "saved_casts.created_at",
+      "<",
+      args.cursor ? new Date(args.cursor) : new Date()
+    )
+    .where("saved_casts.deleted_at", "is", null)
     .limit(20)
     .execute();
 

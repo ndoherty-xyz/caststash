@@ -5,14 +5,7 @@ import { NeynarContextProvider, Theme } from "@neynar/react";
 import "@neynar/react/dist/style.css";
 
 // Create a client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 60 * 2,
-      gcTime: 1000 * 60 * 20,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 export const Providers = (props: React.PropsWithChildren) => {
   return (

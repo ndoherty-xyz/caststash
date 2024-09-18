@@ -6,6 +6,9 @@ import { useInView } from "react-intersection-observer";
 import { Cast } from "../cast/cast";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { castSelect } from "@/utils/paginatedCastQuery";
+import { useMemo, useRef } from "react";
+import usePrevious from "@/hooks/usePrevious";
+import { Skeleton } from "../ui/skeleton";
 
 export const CastGrid = (props: {
   queryKey: any[];
@@ -34,6 +37,25 @@ export const CastGrid = (props: {
     select: castSelect,
   });
 
+  const itemsCount = castQuery.data?.length;
+  const prevItemsCount = usePrevious(itemsCount);
+
+  const removesCount = useRef(0);
+
+  const gridKeyPostfix = useMemo(() => {
+    if (!itemsCount || !prevItemsCount) return removesCount.current;
+    if (itemsCount < prevItemsCount) {
+      removesCount.current += 1;
+      return removesCount.current;
+    }
+
+    return removesCount.current;
+  }, [itemsCount, prevItemsCount]);
+
+  if (castQuery.isLoading) {
+    return <SkeletonGrid />;
+  }
+
   if (!castQuery.data) {
     return <p>Empty List!</p>;
   }
@@ -41,6 +63,7 @@ export const CastGrid = (props: {
   return (
     <>
       <Masonry
+        key={gridKeyPostfix}
         overscanBy={1.5}
         maxColumnCount={4}
         columnGutter={20}
@@ -57,5 +80,32 @@ export const CastGrid = (props: {
       />
       <div ref={ref} />
     </>
+  );
+};
+
+export const SkeletonGrid = () => {
+  // generate a list of random heights
+  const heights = useMemo(() => {
+    return Array.from({ length: 10 }, () => ({
+      height: Math.floor(Math.random() * 300 + 150),
+    }));
+  }, []);
+
+  return (
+    <Masonry
+      overscanBy={1.5}
+      maxColumnCount={4}
+      columnGutter={20}
+      items={heights}
+      render={({
+        data,
+      }: {
+        index: number;
+        data: { height: number };
+        width: number;
+      }) => {
+        return <Skeleton className="w-full" style={{ height: data.height }} />;
+      }}
+    />
   );
 };

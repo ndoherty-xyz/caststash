@@ -7,6 +7,7 @@ import { getUserCollections } from "@/utils/collections/getUserCollection";
 import { getCollectionCastHasBeenSavedByUser } from "@/utils/saved-casts/castSaveState";
 import { addCastToCollection } from "@/utils/collections/addCastToCollection";
 import { useState } from "react";
+import { removeCastFromCollection } from "@/utils/collections/removeCastFromCollection";
 
 export const SaveCastButton = (props: { castHash: string }) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -24,9 +25,34 @@ export const SaveCastButton = (props: { castHash: string }) => {
         collectionId: args.collectionId,
       });
     },
-    onSuccess() {
+    onSuccess(_, args) {
       queryClient.invalidateQueries({
         queryKey: ["castSavedIn", props.castHash],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["collectionCasts", args.collectionId],
+      });
+    },
+  });
+
+  const removeCastMutation = useMutation({
+    mutationKey: ["removeCast", props.castHash],
+    mutationFn: async (args: { collectionId: string }) => {
+      if (!auth.state) return;
+      return await removeCastFromCollection({
+        fid: auth.state.fid,
+        signerUUID: auth.state.signerUUID,
+        castHash: props.castHash,
+        collectionId: args.collectionId,
+      });
+    },
+    onSuccess(_, args) {
+      console.log(args);
+      queryClient.invalidateQueries({
+        queryKey: ["castSavedIn", props.castHash],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["collectionCasts", args.collectionId],
       });
     },
   });
@@ -69,7 +95,12 @@ export const SaveCastButton = (props: { castHash: string }) => {
         {userCollectionsQuery.data?.map((collection, index) => (
           <div
             onClick={() => {
-              saveCastMutation.mutateAsync({ collectionId: collection.id });
+              if (!!castSaveStateQuery.data?.[collection.id]) {
+                removeCastMutation.mutateAsync({ collectionId: collection.id });
+              } else {
+                saveCastMutation.mutateAsync({ collectionId: collection.id });
+              }
+
               setOpen(false);
             }}
             className={`px-2.5 py-2 border-stone-100 cursor-pointer hover:underline flex flex-row gap-2 items-center ${
