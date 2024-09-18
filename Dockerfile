@@ -5,6 +5,10 @@ WORKDIR /app
 # Production node environment
 ENV NODE_ENV=production
 
+# Next.js on railway doesn't include .env at build time, need to copy public env vars
+ARG NEXT_PUBLIC_NEYNAR_CLIENT_ID
+ENV NEXT_PUBLIC_NEYNAR_CLIENT_ID $NEXT_PUBLIC_NEYNAR_CLIENT_ID
+
 # Upgrade yarn version
 ENV YARN_VERSION=4.5.0
 RUN yarn policies set-version $YARN_VERSION
