@@ -19,6 +19,17 @@ export const Avatar = (props: {
     ? 24
     : 16;
 
+  const borderSize =
+    props.size === "2xl"
+      ? 4
+      : props.size === "xl"
+      ? 2
+      : props.size === "lg"
+      ? 2
+      : props.size === "md"
+      ? 1
+      : 1;
+
   if (props.pfpUrl) {
     return (
       <div
@@ -26,13 +37,6 @@ export const Avatar = (props: {
           width: pixelSize,
           height: pixelSize,
           borderRadius: 999,
-          ...(props.noBorder
-            ? {}
-            : {
-                borderWidth: 1,
-
-                borderColor: "#000000a",
-              }),
           position: "relative",
         }}
         className={props.className}
@@ -41,6 +45,12 @@ export const Avatar = (props: {
           alt="pfp"
           style={{
             borderRadius: 999,
+            ...(props.noBorder
+              ? {}
+              : {
+                  outline: `${borderSize}px solid #00000014`,
+                  outlineOffset: -borderSize,
+                }),
           }}
           objectFit="cover"
           objectPosition="center"

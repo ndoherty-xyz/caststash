@@ -36,6 +36,10 @@ export const CastGrid = (props: {
 
   console.log("castgrid re-rendering");
 
+  if (!castQuery.data) {
+    return <p>Empty List!</p>;
+  }
+
   return (
     <>
       <Masonry

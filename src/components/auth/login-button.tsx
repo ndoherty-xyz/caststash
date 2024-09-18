@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
 import { Avatar } from "../users/avatar";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 var authWindow: WindowProxy | null;
 
@@ -84,25 +85,20 @@ export const LoginButton = () => {
               <Avatar
                 overrideSize={36}
                 pfpUrl={userQuery.data?.pfp_url}
-                size="lg"
+                size="md"
               />
             </Link>
           ) : null}
-
-          <button
-            className="py-2 px-5 text-sm bg-black text-white rounded-full"
-            onClick={() => auth.logout()}
-          >
-            Logout
-          </button>
+          <Button onClick={() => auth.logout()}>Logout</Button>
         </div>
       ) : (
-        <button
-          className="py-2 px-5 text-sm bg-black text-white rounded-full"
-          onClick={() => handleSignIn()}
-        >
-          Login
-        </button>
+        <Button onClick={() => handleSignIn()}>Login</Button>
+        // <button
+        //   className="py-2 px-5 text-sm bg-black text-white rounded-full"
+
+        // >
+        //   Login
+        // </button>
       )}
     </>
   );
