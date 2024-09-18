@@ -7,12 +7,14 @@ import { getUserCollections } from "@/utils/collections/getUserCollection";
 import { NewCollectionModal } from "./new-collection-modal";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 export const ProfileHeader = (props: {
   user: User;
   activeCollection: string;
-  selectCollection: (collectionId: string) => void;
 }) => {
+  const { username } = useParams<{ username: string }>();
   const auth = useAuth();
   const queryClient = useQueryClient();
 
@@ -62,24 +64,26 @@ export const ProfileHeader = (props: {
 
       <div className="flex w-full flex-row border-y border-stone-300/25 py-1.5 overflow-x-scroll pl-6">
         {auth.state?.fid === props.user.fid ? <NewCollectionModal /> : null}
-        <Button
-          className="m-1 ml-0"
-          onClick={() => props.selectCollection("likes")}
-          variant={props.activeCollection === "likes" ? "outline" : "ghost"}
-        >
-          Likes
-        </Button>
+        <Link href={`/${username}`}>
+          <Button
+            className="m-1 ml-0"
+            variant={props.activeCollection === "likes" ? "outline" : "ghost"}
+          >
+            Likes
+          </Button>
+        </Link>
         {userCollectionsQuery.data?.map((collection) => {
           return (
-            <Button
-              className="m-1 ml-0"
-              onClick={() => props.selectCollection(collection.id)}
-              variant={
-                props.activeCollection === collection.id ? "outline" : "ghost"
-              }
-            >
-              {collection.title}
-            </Button>
+            <Link href={`/${username}/${collection.id}`}>
+              <Button
+                className="m-1 ml-0"
+                variant={
+                  props.activeCollection === collection.id ? "outline" : "ghost"
+                }
+              >
+                {collection.title}
+              </Button>
+            </Link>
           );
         })}
       </div>
