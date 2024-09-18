@@ -11,6 +11,7 @@ RUN corepack enable
 # Copy the package.json, and yarn.lock files
 COPY package.json ./
 COPY yarn.lock ./
+COPY yarnrc.yml ./
 
 RUN yarn install
 
