@@ -42,6 +42,7 @@ export const Avatar = (props: {
         className={props.className}
       >
         <Image
+          unoptimized
           alt="pfp"
           style={{
             borderRadius: 999,

@@ -36,7 +36,13 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
           aspectRatio,
         }}
       >
-        <Image alt="" className="rounded-lg" fill src={props.embed.url} />
+        <Image
+          unoptimized
+          alt=""
+          className="rounded-lg"
+          fill
+          src={props.embed.url}
+        />
       </div>
     );
   } else if (
