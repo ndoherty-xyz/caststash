@@ -37,7 +37,7 @@ export const Profile = () => {
         selectCollection={setActiveCollection}
         user={userQuery.data}
       />
-      <div className="p-6  bg-stone-100 flex-grow">
+      <div className="p-6 bg-stone-100 flex-grow">
         {activeCollection === "likes" ? (
           <UserLikes fid={userQuery.data?.fid} />
         ) : (

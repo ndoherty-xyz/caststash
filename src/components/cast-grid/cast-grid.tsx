@@ -34,8 +34,6 @@ export const CastGrid = (props: {
     select: castSelect,
   });
 
-  console.log("castgrid re-rendering");
-
   if (!castQuery.data) {
     return <p>Empty List!</p>;
   }

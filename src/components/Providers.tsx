@@ -8,8 +8,8 @@ import "@neynar/react/dist/style.css";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
-      gcTime: 0,
+      staleTime: 1000 * 60 * 60 * 2,
+      gcTime: 1000 * 60 * 20,
     },
   },
 });
