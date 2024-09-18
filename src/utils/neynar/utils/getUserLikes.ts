@@ -11,14 +11,12 @@ export const getUserLikes = async (args: {
 }): Promise<{ casts: CastWithInteractions[]; cursor: string | undefined }> => {
   const res = await neynarClient.fetchUserReactions(
     args.userFid,
-    ReactionsType.All,
+    ReactionsType.Likes,
     {
       viewerFid: args.viewerFid,
       cursor: args.cursor,
     }
   );
-
-  console.log(res);
 
   return {
     casts: res.reactions.map((x) => x.cast),
