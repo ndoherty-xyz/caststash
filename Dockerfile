@@ -2,6 +2,9 @@ FROM node:22-alpine
 
 WORKDIR /app
 
+# Production node environment
+ENV NODE_ENV=production
+
 # Upgrade yarn version
 ENV YARN_VERSION=4.5.0
 RUN yarn policies set-version $YARN_VERSION
