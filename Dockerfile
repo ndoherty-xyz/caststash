@@ -8,8 +8,7 @@ RUN yarn policies set-version $YARN_VERSION
 
 RUN corepack enable
 
-# Copy the package.json, local yarn dist, and yarn.lock files
-COPY .yarn ./
+# Copy the package.json, and yarn.lock files
 COPY package.json ./
 COPY yarn.lock ./
 
