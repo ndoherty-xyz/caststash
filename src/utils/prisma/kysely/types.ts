@@ -14,9 +14,7 @@ export type collections = {
     deleted_at: Timestamp | null;
 };
 export type saved_casts = {
-    id: Generated<string>;
     castHash: string;
-    ownerFid: number;
     collectionsId: string;
     created_at: Generated<Timestamp>;
     updated_at: Generated<Timestamp>;

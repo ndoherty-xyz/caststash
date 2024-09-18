@@ -27,12 +27,12 @@ model collections {
 }
 
 model saved_casts {
-  id            String      @id @default(uuid())
   castHash      String
-  ownerFid      Int
   collectionId  collections @relation(fields: [collectionsId], references: [id])
   collectionsId String
   created_at  DateTime      @default(now())
   updated_at  DateTime      @default(now())
   deleted_at  DateTime?
+
+  @@id([castHash, collectionsId])
 }

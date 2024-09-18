@@ -20,7 +20,6 @@ export const addCastToCollection = async (args: {
 
   const res = await prismaClient.saved_casts.create({
     data: {
-      ownerFid: args.fid,
       castHash: args.castHash,
       collectionId: {
         connect: {

@@ -60,7 +60,7 @@ export const ProfileHeader = (props: {
         </div>
       </div>
 
-      <div className="flex w-full flex-row border-t border-[#000000a] py-1.5 overflow-x-scroll pl-6">
+      <div className="flex w-full flex-row border-y border-stone-300/25 py-1.5 overflow-x-scroll pl-6">
         {auth.state?.fid === props.user.fid ? <NewCollectionModal /> : null}
         <Button
           className="m-1 ml-0"
@@ -83,8 +83,6 @@ export const ProfileHeader = (props: {
           );
         })}
       </div>
-
-      {/*  */}
     </div>
   );
 };
