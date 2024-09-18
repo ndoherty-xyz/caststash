@@ -3,16 +3,11 @@
 import { CastWithInteractions as NeynarCast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { Avatar } from "../users/avatar";
 import { Embed } from "./embed";
-import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
-import { addCastToCollection } from "@/utils/collections/addCastToCollection";
 import Link from "next/link";
-import { Bookmark, Heart, HeartOff } from "lucide-react";
+import { Heart } from "lucide-react";
 import { SaveCastButton } from "./save-cast-button";
 
 export const Cast = ({ cast }: { cast: NeynarCast }) => {
-  const auth = useAuth();
-
   return (
     <div className="flex flex-col gap-2 break-words bg-white rounded-2xl p-4 border border-stone-300/25">
       <Link href={`/${cast.author.username}`}>
@@ -26,7 +21,7 @@ export const Cast = ({ cast }: { cast: NeynarCast }) => {
 
       <p className="text-sm">{cast.text}</p>
       {cast.embeds.map((x) => (
-        <Embed embed={x} />
+        <Embed embed={x} key={"cast_id" in x ? x.cast_id.hash : x.url} />
       ))}
 
       <div className="flex flex-row pt-3 w-full items-center justify-between gap-2">

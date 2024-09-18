@@ -17,6 +17,7 @@ export const useAuth = () => {
 
   if (!user) return { state: undefined, login, logout };
 
+  //eslint-disable-next-line
   const userAny = user as any;
 
   if ("fid" in userAny && "signerUuid" in userAny) {

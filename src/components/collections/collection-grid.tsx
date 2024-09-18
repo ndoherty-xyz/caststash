@@ -1,3 +1,5 @@
+"use client";
+
 import { useAuth } from "@/hooks/useAuth";
 import { getCastsInCollection } from "@/utils/collections/getCastsInCollection";
 import { CastGrid } from "../cast-grid/cast-grid";

@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { getChannelCasts } from "@/utils/neynar/utils/getChannelCasts";
 import { CastGrid } from "./cast-grid";
 
-export const ChannelCasts = (props: { channelId: string }) => {
+const ChannelCasts = (props: { channelId: string }) => {
   const auth = useAuth();
 
   return (
@@ -25,3 +25,5 @@ export const ChannelCasts = (props: { channelId: string }) => {
     />
   );
 };
+
+export default ChannelCasts;

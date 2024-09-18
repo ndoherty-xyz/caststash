@@ -20,7 +20,7 @@ export const getCollectionCastHasBeenSavedByUser = async (args: {
     .where("saved_casts.deleted_at", "is", null)
     .execute();
 
-  let returnVal: Record<string, boolean> = {};
+  const returnVal: Record<string, boolean> = {};
 
   for (const entry of ownedCollectionsCastSavedIn) {
     returnVal[entry.id] = true;

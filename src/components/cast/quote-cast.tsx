@@ -5,7 +5,7 @@ import { Avatar } from "../users/avatar";
 export const QuoteCast = (props: { hash: string }) => {
   const castQuery = useQuery({
     queryKey: ["cast", props.hash],
-    queryFn: async ({ pageParam }) => {
+    queryFn: async () => {
       return await getCast({ castHash: props.hash });
     },
   });

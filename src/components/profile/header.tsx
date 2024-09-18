@@ -60,7 +60,11 @@ export const ProfileHeader = (props: {
         </Link>
         {userCollectionsQuery.data?.map((collection) => {
           return (
-            <Link href={`/${username}/${collection.id}`} scroll={false}>
+            <Link
+              key={collection.id}
+              href={`/${username}/${collection.id}`}
+              scroll={false}
+            >
               <Button
                 className="m-1 ml-0"
                 variant={

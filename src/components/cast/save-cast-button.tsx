@@ -94,6 +94,7 @@ export const SaveCastButton = (props: { castHash: string }) => {
       <PopoverContent className="w-56 p-0" align="end" alignOffset={-16}>
         {userCollectionsQuery.data?.map((collection, index) => (
           <div
+            key={collection.id}
             onClick={() => {
               if (!!castSaveStateQuery.data?.[collection.id]) {
                 removeCastMutation.mutateAsync({ collectionId: collection.id });

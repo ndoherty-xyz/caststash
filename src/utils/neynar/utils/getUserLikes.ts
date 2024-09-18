@@ -4,6 +4,8 @@ import { ReactionsType } from "@neynar/nodejs-sdk";
 import { neynarClient } from "..";
 import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 
+type NeynarCursorFix = { cursor?: string | null };
+
 export const getUserLikes = async (args: {
   userFid: number;
   viewerFid?: number | undefined;
@@ -20,6 +22,6 @@ export const getUserLikes = async (args: {
 
   return {
     casts: res.reactions.map((x) => x.cast),
-    cursor: (res as any).cursor ?? undefined, // fun one neynar
+    cursor: (res as NeynarCursorFix).cursor ?? undefined, // fun one neynar
   };
 };

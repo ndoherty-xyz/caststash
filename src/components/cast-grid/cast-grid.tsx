@@ -11,6 +11,7 @@ import usePrevious from "@/hooks/usePrevious";
 import { Skeleton } from "../ui/skeleton";
 
 export const CastGrid = (props: {
+  //eslint-disable-next-line
   queryKey: any[];
   queryFn: ({
     pageParam,

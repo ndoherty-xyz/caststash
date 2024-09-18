@@ -1,9 +1,7 @@
-import { ChannelCasts } from "@/components/cast-grid/channel-casts";
+import HomeFeed from "@/screens/feed";
+
+export const dynamic = "force-dynamic";
 
 export default function Home() {
-  return (
-    <div className="p-6 bg-stone-100">
-      <ChannelCasts channelId="someone-build" />
-    </div>
-  );
+  return <HomeFeed />;
 }

@@ -1,12 +1,14 @@
 import { useAuth } from "@/hooks/useAuth";
 import { getUserByFid } from "@/utils/neynar/utils/getUser";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { Avatar } from "../users/avatar";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-var authWindow: WindowProxy | null;
+let authWindow: WindowProxy | null;
+const authUrl = new URL("https://app.neynar.com/login");
+const authOrigin = authUrl.origin;
 
 export const LoginButton = () => {
   const auth = useAuth();
@@ -27,8 +29,7 @@ export const LoginButton = () => {
         is_authenticated: boolean;
         signer_uuid: string;
         fid: number;
-      }>,
-      authOrigin: string
+      }>
     ) => {
       if (event.origin === authOrigin && event.data.is_authenticated) {
         auth.login(event.data.fid, event.data.signer_uuid);
@@ -37,7 +38,7 @@ export const LoginButton = () => {
           authWindow.close();
         }
 
-        window.removeEventListener("message", handleMessage as any);
+        window.removeEventListener("message", handleMessage);
       }
     },
     []
@@ -47,30 +48,22 @@ export const LoginButton = () => {
     const clientId = process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID;
     if (!clientId) throw new Error("NO NEYNAR CLIENT ID");
 
-    const authUrl = new URL("https://app.neynar.com/login");
-    const authOrigin = authUrl.origin;
     authUrl.searchParams.append("client_id", clientId);
 
-    var isDesktop = window.matchMedia("(min-width: 800px)").matches;
+    const isDesktop = window.matchMedia("(min-width: 800px)").matches;
 
-    var width = 600,
+    const width = 600,
       height = 700;
-    var left = window.screen.width / 2 - width / 2;
-    var top = window.screen.height / 2 - height / 2;
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
 
     // Define window features for the popup
-    var windowFeatures = `width=${width},height=${height},top=${top},left=${left}`;
+    const windowFeatures = `width=${width},height=${height},top=${top},left=${left}`;
 
-    var windowOptions = isDesktop ? windowFeatures : "fullscreen=yes";
+    const windowOptions = isDesktop ? windowFeatures : "fullscreen=yes";
 
     authWindow = window.open(authUrl.toString(), "_blank", windowOptions);
-    window.addEventListener(
-      "message",
-      function (event) {
-        handleMessage(event, authOrigin);
-      },
-      false
-    );
+    window.addEventListener("message", handleMessage, false);
   }, []);
 
   return (
@@ -93,12 +86,6 @@ export const LoginButton = () => {
         </div>
       ) : (
         <Button onClick={() => handleSignIn()}>Login</Button>
-        // <button
-        //   className="py-2 px-5 text-sm bg-black text-white rounded-full"
-
-        // >
-        //   Login
-        // </button>
       )}
     </>
   );
