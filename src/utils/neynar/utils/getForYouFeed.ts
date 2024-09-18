@@ -3,22 +3,17 @@
 import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { neynarClient } from "@/utils/neynar";
 
-export const getChannelCasts = async ({
-  channelIds,
+export const getForYouFeed = async ({
   cursor,
-  viewerFid,
-  shouldModerate,
+  fid,
 }: {
-  channelIds: string[];
   cursor?: string;
-  viewerFid?: number | undefined;
-  shouldModerate?: boolean;
+  fid: number;
 }): Promise<{ casts: CastWithInteractions[]; cursor: string | undefined }> => {
-  const res = await neynarClient.fetchFeedByChannelIds(channelIds, {
-    viewerFid,
+  const res = await neynarClient.fetchFeedForYou(fid, {
+    viewerFid: fid,
     cursor: cursor ? cursor : undefined,
     limit: 20,
-    shouldModerate,
   });
 
   return {

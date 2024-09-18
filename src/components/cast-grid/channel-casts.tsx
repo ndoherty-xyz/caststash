@@ -4,16 +4,17 @@ import { useAuth } from "@/hooks/useAuth";
 import { getChannelCasts } from "@/utils/neynar/utils/getChannelCasts";
 import { CastGrid } from "./cast-grid";
 
-const ChannelCasts = (props: { channelId: string }) => {
+const ChannelCasts = (props: { channelIds: string[] }) => {
   const auth = useAuth();
 
   return (
     <CastGrid
       queryFn={async ({ pageParam }) => {
         const { casts, cursor } = await getChannelCasts({
-          channelId: props.channelId,
+          channelIds: props.channelIds,
           cursor: pageParam,
           viewerFid: auth.state?.fid,
+          shouldModerate: true,
         });
 
         return {
@@ -21,7 +22,7 @@ const ChannelCasts = (props: { channelId: string }) => {
           cursor,
         };
       }}
-      queryKey={["casts", props.channelId]}
+      queryKey={["channelCasts", props.channelIds]}
     />
   );
 };

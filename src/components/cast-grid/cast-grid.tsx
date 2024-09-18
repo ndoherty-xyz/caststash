@@ -9,6 +9,7 @@ import { castSelect } from "@/utils/paginatedCastQuery";
 import { useMemo, useRef } from "react";
 import usePrevious from "@/hooks/usePrevious";
 import { Skeleton } from "../ui/skeleton";
+import GridLoader from "react-spinners/GridLoader";
 
 export const CastGrid = (props: {
   //eslint-disable-next-line
@@ -62,7 +63,7 @@ export const CastGrid = (props: {
   }
 
   return (
-    <>
+    <div className="relative">
       <Masonry
         key={gridKeyPostfix}
         overscanBy={1.5}
@@ -79,8 +80,13 @@ export const CastGrid = (props: {
           return <Cast cast={data} />;
         }}
       />
-      <div ref={ref} />
-    </>
+      <div ref={ref} className="absolute left-0 w-full bottom-[500px]" />
+      {castQuery.isLoading || castQuery.isFetchingNextPage ? (
+        <div className="py-8 w-full flex justify-center items-center">
+          <GridLoader color="#00000030" />
+        </div>
+      ) : null}
+    </div>
   );
 };
 
