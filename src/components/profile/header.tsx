@@ -42,12 +42,8 @@ export const ProfileHeader = (props: {
   });
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="bg-black w-full h-48" />
-      <div
-        className="flex flex-col items-center pb-6"
-        style={{ marginTop: -50 }}
-      >
+    <div className="flex flex-col items-center pt-10 bg-white min-h-full">
+      <div className="flex flex-col items-center pb-6">
         <div
           className="bg-white p-2.5 rounded-full aspect-square"
           style={{ width: 100, height: 100 }}
@@ -70,7 +66,8 @@ export const ProfileHeader = (props: {
         </div>
       </div>
 
-      <div className="flex w-full flex-row border-t border-[#000000a] ">
+      <div className="flex w-full flex-row border-t  border-[#000000a] ">
+        <div className="w-6" />
         {auth.state?.fid === props.user.fid ? (
           <button
             onClick={() => {
@@ -78,7 +75,7 @@ export const ProfileHeader = (props: {
                 title: "test collection",
               });
             }}
-            className="text-blue-400 py-2 pl-6 pr-4"
+            className="text-blue-400 py-2  pr-4"
           >
             + New
           </button>

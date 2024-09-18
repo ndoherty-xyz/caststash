@@ -1,6 +1,6 @@
 "use server";
 
-import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { prismaClient } from "../prisma";
 import { neynarClient } from "../neynar";
 
@@ -8,7 +8,7 @@ export const getCastsInCollection = async (args: {
   collectionId: string;
   cursor?: string | undefined;
   viewerFid?: number | undefined;
-}): Promise<{ casts: Cast[]; cursor: string | undefined }> => {
+}): Promise<{ casts: CastWithInteractions[]; cursor: string | undefined }> => {
   // get cast hashes for cursor from the collection
   const castHashes = await prismaClient.$kysely
     .selectFrom("saved_casts")

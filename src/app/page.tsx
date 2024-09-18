@@ -1,4 +1,3 @@
-import { CastGrid } from "@/components/cast-grid/cast-grid";
 import { ChannelCasts } from "@/components/cast-grid/channel-casts";
 
 export default function Home() {

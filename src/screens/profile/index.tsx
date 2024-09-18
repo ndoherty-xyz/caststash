@@ -31,13 +31,13 @@ export const Profile = () => {
   }
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <ProfileHeader
         activeCollection={activeCollection}
         selectCollection={setActiveCollection}
         user={userQuery.data}
       />
-      <div className="p-6 bg-stone-100 border-t border-[#000000a]">
+      <div className="p-6 border-t border-[#000000a] bg-stone-100 flex-grow">
         {activeCollection === "likes" ? (
           <UserLikes fid={userQuery.data?.fid} />
         ) : (

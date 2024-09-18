@@ -2,13 +2,13 @@
 
 import { ReactionsType } from "@neynar/nodejs-sdk";
 import { neynarClient } from "..";
-import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 
 export const getUserLikes = async (args: {
   userFid: number;
   viewerFid?: number | undefined;
   cursor?: string;
-}): Promise<{ casts: Cast[]; cursor: string | undefined }> => {
+}): Promise<{ casts: CastWithInteractions[]; cursor: string | undefined }> => {
   const res = await neynarClient.fetchUserReactions(
     args.userFid,
     ReactionsType.All,

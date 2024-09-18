@@ -1,6 +1,6 @@
 "use server";
 
-import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { neynarClient } from "@/utils/neynar";
 
 export const getChannelCasts = async ({
@@ -11,7 +11,7 @@ export const getChannelCasts = async ({
   channelId: string;
   cursor?: string;
   viewerFid?: number | undefined;
-}): Promise<{ casts: Cast[]; cursor: string | undefined }> => {
+}): Promise<{ casts: CastWithInteractions[]; cursor: string | undefined }> => {
   const res = await neynarClient.fetchFeedByChannelIds([channelId], {
     viewerFid,
     cursor: cursor ? cursor : undefined,

@@ -3,19 +3,21 @@ import Image from "next/image";
 export const Avatar = (props: {
   pfpUrl?: string;
   size: "sm" | "md" | "lg" | "xl" | "2xl";
+  overrideSize?: number;
   noBorder?: boolean;
   className?: string;
 }) => {
-  const pixelSize =
-    props.size === "2xl"
-      ? 120
-      : props.size === "xl"
-      ? 80
-      : props.size === "lg"
-      ? 40
-      : props.size === "md"
-      ? 24
-      : 16;
+  const pixelSize = props.overrideSize
+    ? props.overrideSize
+    : props.size === "2xl"
+    ? 120
+    : props.size === "xl"
+    ? 80
+    : props.size === "lg"
+    ? 40
+    : props.size === "md"
+    ? 24
+    : 16;
 
   if (props.pfpUrl) {
     return (

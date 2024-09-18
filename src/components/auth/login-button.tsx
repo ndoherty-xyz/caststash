@@ -1,10 +1,24 @@
 import { useAuth } from "@/hooks/useAuth";
+import { getUserByFid } from "@/utils/neynar/utils/getUser";
+import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
+import { Avatar } from "../users/avatar";
+import Link from "next/link";
 
 var authWindow: WindowProxy | null;
 
 export const LoginButton = () => {
   const auth = useAuth();
+
+  const userQuery = useQuery({
+    queryKey: ["userByUsername", auth.state?.fid],
+    queryFn: async () => {
+      if (!auth.state?.fid) return;
+      const user = await getUserByFid(auth.state.fid, auth.state?.fid);
+      return user;
+    },
+    enabled: !!auth.state?.fid,
+  });
 
   const handleMessage = useCallback(
     (
@@ -62,9 +76,21 @@ export const LoginButton = () => {
     <>
       {auth.state ? (
         <div className="flex flex-row gap-2 items-center">
-          <p className="text-xs">fid: {auth.state.fid}</p>
+          {userQuery.data ? (
+            <Link
+              href={`/${userQuery.data?.username}`}
+              className="cursor-pointer"
+            >
+              <Avatar
+                overrideSize={36}
+                pfpUrl={userQuery.data?.pfp_url}
+                size="lg"
+              />
+            </Link>
+          ) : null}
+
           <button
-            className="py-2 px-3 text-sm bg-white rounded-xl"
+            className="py-2 px-5 text-sm bg-black text-white rounded-full"
             onClick={() => auth.logout()}
           >
             Logout
@@ -72,7 +98,7 @@ export const LoginButton = () => {
         </div>
       ) : (
         <button
-          className="py-2 px-3 text-sm bg-white rounded-xl"
+          className="py-2 px-5 text-sm bg-black text-white rounded-full"
           onClick={() => handleSignIn()}
         >
           Login
