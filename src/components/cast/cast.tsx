@@ -48,6 +48,7 @@ export const Cast = ({
           />
         </div>
         <SaveCastButton
+          saveCount={cast.saveCount}
           castHash={cast.hash}
           savedInCollections={cast.savedInCollectionIds ?? []}
         />

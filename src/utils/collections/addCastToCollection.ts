@@ -10,7 +10,10 @@ export const addCastToCollection = async (args: {
   castHash: string;
   collectionId: string;
 }): Promise<
-  Pick<NeynarCastWithSaveState, "hash" | "savedInCollectionIds"> & {
+  Pick<
+    NeynarCastWithSaveState,
+    "hash" | "savedInCollectionIds" | "saveCount"
+  > & {
     object: "cast";
   }
 > => {
@@ -43,21 +46,34 @@ export const addCastToCollection = async (args: {
     },
   });
 
-  const savedInCollectionIds = (
-    await prismaClient.$kysely
+  const [saveCount, savedInCollectionIds] = await Promise.all([
+    prismaClient.$kysely
       .selectFrom("saved_casts")
       .innerJoin("collections", "saved_casts.collectionsId", "collections.id")
-      .select(["saved_casts.collectionsId"])
+      .select(({ fn }) => [
+        "saved_casts.castHash",
+        fn.countAll().as("savedCount"),
+      ])
+      .where("saved_casts.castHash", "=", args.castHash)
+      .where("saved_casts.deleted_at", "is", null)
+      .where("collections.deleted_at", "is", null)
+      .groupBy("saved_casts.castHash")
+      .executeTakeFirstOrThrow(),
+    prismaClient.$kysely
+      .selectFrom("saved_casts")
+      .innerJoin("collections", "saved_casts.collectionsId", "collections.id")
+      .select(["saved_casts.castHash", "saved_casts.collectionsId"])
       .where("saved_casts.castHash", "=", args.castHash)
       .where("collections.deleted_at", "is", null)
       .where("collections.ownerFid", "=", args.fid)
       .where("saved_casts.deleted_at", "is", null)
-      .execute()
-  ).map((col) => col.collectionsId);
+      .execute(),
+  ]);
 
   return {
     object: "cast",
     hash: args.castHash,
-    savedInCollectionIds,
+    savedInCollectionIds: savedInCollectionIds.map((col) => col.collectionsId),
+    saveCount: Number(saveCount.savedCount),
   };
 };

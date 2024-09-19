@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 export const SaveCastButton = (props: {
   castHash: string;
   savedInCollections: string[];
+  saveCount: number;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -38,12 +39,14 @@ export const SaveCastButton = (props: {
         optimisticData: {
           object: "cast",
           hash: props.castHash,
-          name: [collectionId, ...props.savedInCollections],
+          savedInCollectionIds: [collectionId, ...props.savedInCollections],
+          saveCount: props.saveCount + 1,
         },
         rollbackData: {
           object: "cast",
           hash: props.castHash,
-          name: props.savedInCollections,
+          savedInCollectionIds: props.savedInCollections,
+          saveCount: props.saveCount,
         },
       };
     },
@@ -73,15 +76,19 @@ export const SaveCastButton = (props: {
           savedInCollectionIds: props.savedInCollections.filter(
             (x) => x !== collectionId
           ),
+          saveCount: props.saveCount - 1,
         },
         rollbackData: {
           object: "cast",
           hash: props.castHash,
           savedInCollectionIds: props.savedInCollections,
+          saveCount: props.saveCount,
         },
       };
     },
   });
+
+  console.log(props.saveCount);
 
   const userCollectionsQuery = useQuery({
     queryKey: ["userCollections", auth.state?.fid],
@@ -102,13 +109,20 @@ export const SaveCastButton = (props: {
       }}
     >
       <PopoverTrigger asChild className="cursor-pointer">
-        <Button size="icon" variant="ghost">
-          {isSavedAnywhere ? (
-            <Bookmark fill="#171717" size={16} />
-          ) : (
-            <Bookmark size={16} />
-          )}
-        </Button>
+        <div className="flex flex-row gap-2 items-center justify-center">
+          <Button size="icon" variant="ghost">
+            {isSavedAnywhere ? (
+              <Bookmark fill="#171717" size={16} />
+            ) : (
+              <Bookmark size={16} />
+            )}
+          </Button>
+          {props.saveCount ? (
+            <p className={`font-semibold text-xs -ml-3 mt-0.5`}>
+              {props.saveCount}
+            </p>
+          ) : null}
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-56 p-0" align="end" alignOffset={-16}>
         {userCollectionsQuery.data?.map((collection, index) => {
