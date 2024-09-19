@@ -78,7 +78,7 @@ export async function POST(
     {
       type: "message",
       message: `Cast stashed to ${collection.title}`,
-      link: "https://caststash.com",
+      link: `https://caststash.com/~/profiles/${result.action.interactor.fid}/${collectionId}`,
     },
     { status: 200 }
   );
