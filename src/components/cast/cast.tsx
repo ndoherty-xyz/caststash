@@ -42,6 +42,7 @@ export const Cast = ({
       <div className="flex flex-row w-full items-center justify-between gap-2">
         <div className="flex flex-row gap-1">
           <LikeCastButton
+            likeCount={cast.reactions.likes_count}
             castHash={cast.hash}
             viewerContext={cast.viewer_context}
           />
