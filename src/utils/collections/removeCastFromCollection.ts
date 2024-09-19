@@ -51,7 +51,7 @@ export const removeCastFromCollection = async (args: {
       .where("saved_casts.deleted_at", "is", null)
       .where("collections.deleted_at", "is", null)
       .groupBy("saved_casts.castHash")
-      .executeTakeFirstOrThrow(),
+      .executeTakeFirst(),
     prismaClient.$kysely
       .selectFrom("saved_casts")
       .innerJoin("collections", "saved_casts.collectionsId", "collections.id")
@@ -67,6 +67,6 @@ export const removeCastFromCollection = async (args: {
     object: "cast",
     hash: args.castHash,
     savedInCollectionIds: savedInCollectionIds.map((col) => col.collectionsId),
-    saveCount: Number(saveCount.savedCount),
+    saveCount: saveCount ? Number(saveCount.savedCount) : 0,
   };
 };
