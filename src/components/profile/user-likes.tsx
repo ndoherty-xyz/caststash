@@ -21,7 +21,7 @@ export const UserLikes = (props: { fid: number }) => {
           cursor,
         };
       }}
-      queryKey={["likes", props.fid]}
+      queryKey={["casts", "likes", props.fid]}
     />
   );
 };

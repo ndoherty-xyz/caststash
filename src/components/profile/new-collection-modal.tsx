@@ -291,7 +291,7 @@ export const DeleteCollectionModal = (props: {
     >
       <AlertDialogTrigger asChild>
         <Button variant="ghost" size="icon" className="hover:bg-red-100">
-          <Trash color="red" size={16} />
+          <Trash className="text-red-500" size={16} />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogPortal>

@@ -1,12 +1,13 @@
 import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Popover } from "../ui/popover";
-import { Bookmark, BookmarkCheck, Check } from "lucide-react";
+import { Bookmark, Check } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUserCollections } from "@/utils/collections/getUserCollection";
 import { addCastToCollection } from "@/utils/collections/addCastToCollection";
 import { useState } from "react";
 import { removeCastFromCollection } from "@/utils/collections/removeCastFromCollection";
+import { Button } from "../ui/button";
 
 export const SaveCastButton = (props: {
   castHash: string;
@@ -101,7 +102,13 @@ export const SaveCastButton = (props: {
       }}
     >
       <PopoverTrigger asChild className="cursor-pointer">
-        {isSavedAnywhere ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
+        <Button size="icon" variant="ghost">
+          {isSavedAnywhere ? (
+            <Bookmark fill="#171717" size={16} />
+          ) : (
+            <Bookmark size={16} />
+          )}
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-56 p-0" align="end" alignOffset={-16}>
         {userCollectionsQuery.data?.map((collection, index) => {

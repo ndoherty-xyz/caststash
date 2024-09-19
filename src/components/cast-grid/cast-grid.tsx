@@ -65,8 +65,8 @@ export const CastGrid = (props: {
     <div className="relative">
       <Masonry
         key={gridKeyPostfix}
-        overscanBy={1.5}
-        maxColumnCount={4}
+        overscanBy={2}
+        maxColumnCount={3}
         columnGutter={20}
         items={castQuery.data ?? []}
         render={({
@@ -99,8 +99,8 @@ export const SkeletonGrid = () => {
 
   return (
     <Masonry
-      overscanBy={1.5}
-      maxColumnCount={4}
+      overscanBy={2}
+      maxColumnCount={3}
       columnGutter={20}
       items={heights}
       render={({

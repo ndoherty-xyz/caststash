@@ -3,10 +3,10 @@
 import { Avatar } from "../users/avatar";
 import { Embed } from "./embed";
 import Link from "next/link";
-import { Heart } from "lucide-react";
 import { SaveCastButton } from "./save-cast-button";
 import { Badge } from "../ui/badge";
 import { NeynarCastWithSaveState } from "@/utils/saved-casts/types";
+import { LikeCastButton } from "./like-cast-button";
 
 export const Cast = ({
   cast,
@@ -32,18 +32,18 @@ export const Cast = ({
       ))}
 
       {cast.channel && !hideChannelTag ? (
-        <div className="flex flex-row">
-          <Badge variant="secondary">#{cast.channel.id}</Badge>
-        </div>
+        <Link href={`/feed/${cast.channel.id}`}>
+          <div className="flex flex-row cursor-pointer">
+            <Badge variant="secondary">#{cast.channel.id}</Badge>
+          </div>
+        </Link>
       ) : null}
 
-      <div className="flex flex-row pt-3 w-full items-center justify-between gap-2">
+      <div className="flex flex-row w-full items-center justify-between gap-2">
         <div className="flex flex-row gap-1">
-          <Heart
-            size={20}
-            {...(cast.viewer_context?.liked
-              ? { fill: "#ef4444", stroke: "#ef4444" }
-              : {})}
+          <LikeCastButton
+            castHash={cast.hash}
+            viewerContext={cast.viewer_context}
           />
         </div>
         <SaveCastButton

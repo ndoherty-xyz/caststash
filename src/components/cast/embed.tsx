@@ -5,6 +5,7 @@ import {
 } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import Image from "next/image";
 import { QuoteCast } from "./quote-cast";
+import Link from "next/link";
 
 type NeynarVideoTypeFix = {
   streams: { height_px?: number; width_px: number }[];
@@ -76,9 +77,42 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
         />
       </div>
     );
+  } else if (!!props.embed.metadata.html) {
+    const image = props.embed.metadata.html.ogImage?.[0]?.url;
+    const title = props.embed.metadata.html.ogTitle;
+    const site = props.embed.metadata.html.ogSiteName;
+    const desc = props.embed.metadata.html.ogDescription;
+
+    return (
+      <Link target="_blank" href={props.embed.url}>
+        <div
+          className="flex flex-row standard-outline rounded-lg h-20 cursor-pointer"
+          style={{
+            outlineWidth: 1,
+          }}
+        >
+          {image ? (
+            <div
+              style={{
+                position: "relative",
+                height: "100%",
+                aspectRatio: 1,
+              }}
+            >
+              <Image unoptimized alt="" objectFit="cover" fill src={image} />
+            </div>
+          ) : null}
+          <div className="p-4 flex flex-col justify-center">
+            <p className="text-sm font-semibold">{title}</p>
+            <p className="text-xs line-clamp-2">{desc}</p>
+            <p>{site}</p>
+          </div>
+        </div>
+      </Link>
+    );
   }
 
-  return <></>;
+  return <p>{props.embed.url}</p>;
 };
 
 const CastEmbed = (props: { embed: EmbedCastId }) => {
