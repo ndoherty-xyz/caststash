@@ -4,12 +4,14 @@ import { Bookmark, BookmarkCheck, Check } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUserCollections } from "@/utils/collections/getUserCollection";
-import { getCollectionCastHasBeenSavedByUser } from "@/utils/saved-casts/castSaveState";
 import { addCastToCollection } from "@/utils/collections/addCastToCollection";
 import { useState } from "react";
 import { removeCastFromCollection } from "@/utils/collections/removeCastFromCollection";
 
-export const SaveCastButton = (props: { castHash: string }) => {
+export const SaveCastButton = (props: {
+  castHash: string;
+  savedInCollections: string[];
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const auth = useAuth();
@@ -27,10 +29,7 @@ export const SaveCastButton = (props: { castHash: string }) => {
     },
     onSuccess(_, args) {
       queryClient.invalidateQueries({
-        queryKey: ["castSavedIn", props.castHash],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["collectionCasts", args.collectionId],
+        queryKey: ["casts", "collection", args.collectionId],
       });
     },
   });
@@ -48,10 +47,7 @@ export const SaveCastButton = (props: { castHash: string }) => {
     },
     onSuccess(_, args) {
       queryClient.invalidateQueries({
-        queryKey: ["castSavedIn", props.castHash],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["collectionCasts", args.collectionId],
+        queryKey: ["casts", "collection", args.collectionId],
       });
     },
   });
@@ -65,20 +61,7 @@ export const SaveCastButton = (props: { castHash: string }) => {
     enabled: !!auth.state?.fid,
   });
 
-  const castSaveStateQuery = useQuery({
-    queryKey: ["castSavedIn", props.castHash],
-    queryFn: async () => {
-      if (!auth.state?.fid || !auth.state.signerUUID) return {};
-      return await getCollectionCastHasBeenSavedByUser({
-        fid: auth.state.fid,
-        signerUUID: auth.state.signerUUID,
-        castHash: props.castHash,
-      });
-    },
-    enabled: !!auth.state?.fid && !!auth.state.signerUUID,
-  });
-
-  const isSavedAnywhere = Object.keys(castSaveStateQuery.data ?? []).length > 0;
+  const isSavedAnywhere = props.savedInCollections.length > 0;
 
   return (
     <Popover
@@ -91,30 +74,35 @@ export const SaveCastButton = (props: { castHash: string }) => {
         {isSavedAnywhere ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
       </PopoverTrigger>
       <PopoverContent className="w-56 p-0" align="end" alignOffset={-16}>
-        {userCollectionsQuery.data?.map((collection, index) => (
-          <div
-            key={collection.id}
-            onClick={() => {
-              if (!!castSaveStateQuery.data?.[collection.id]) {
-                removeCastMutation.mutateAsync({ collectionId: collection.id });
-              } else {
-                saveCastMutation.mutateAsync({ collectionId: collection.id });
-              }
+        {userCollectionsQuery.data?.map((collection, index) => {
+          const isSavedIn = props.savedInCollections.includes(collection.id);
+          return (
+            <div
+              key={collection.id}
+              onClick={() => {
+                if (isSavedIn) {
+                  removeCastMutation.mutateAsync({
+                    collectionId: collection.id,
+                  });
+                } else {
+                  saveCastMutation.mutateAsync({ collectionId: collection.id });
+                }
 
-              setOpen(false);
-            }}
-            className={`px-2.5 py-2 border-stone-100 cursor-pointer hover:underline flex flex-row gap-2 items-center ${
-              index !== userCollectionsQuery.data.length - 1 ? "border-b" : ""
-            }`}
-          >
-            {!!castSaveStateQuery.data?.[collection.id] ? (
-              <Check size={16} />
-            ) : isSavedAnywhere ? (
-              <div className="w-4" />
-            ) : null}
-            <p className="text-sm font-medium">{collection.title}</p>
-          </div>
-        ))}
+                setOpen(false);
+              }}
+              className={`px-2.5 py-2 border-stone-100 cursor-pointer hover:underline flex flex-row gap-2 items-center ${
+                index !== userCollectionsQuery.data.length - 1 ? "border-b" : ""
+              }`}
+            >
+              {isSavedIn ? (
+                <Check size={16} />
+              ) : isSavedAnywhere ? (
+                <div className="w-4" />
+              ) : null}
+              <p className="text-sm font-medium">{collection.title}</p>
+            </div>
+          );
+        })}
       </PopoverContent>
     </Popover>
   );

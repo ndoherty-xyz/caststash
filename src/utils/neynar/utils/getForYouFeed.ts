@@ -1,7 +1,8 @@
 "use server";
 
-import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { neynarClient } from "@/utils/neynar";
+import { NeynarCastWithSaveState } from "@/utils/saved-casts/types";
+import { hydrateSaveStatesForCasts } from "@/utils/saved-casts/castSaveState";
 
 export const getForYouFeed = async ({
   cursor,
@@ -9,15 +10,23 @@ export const getForYouFeed = async ({
 }: {
   cursor?: string;
   fid: number;
-}): Promise<{ casts: CastWithInteractions[]; cursor: string | undefined }> => {
+}): Promise<{
+  casts: NeynarCastWithSaveState[];
+  cursor: string | undefined;
+}> => {
   const res = await neynarClient.fetchFeedForYou(fid, {
     viewerFid: fid,
     cursor: cursor ? cursor : undefined,
     limit: 20,
   });
 
-  return {
+  const casts = await hydrateSaveStatesForCasts({
     casts: res.casts,
+    fid: fid,
+  });
+
+  return {
+    casts,
     cursor: res.next.cursor ?? undefined,
   };
 };

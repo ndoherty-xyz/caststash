@@ -1,6 +1,5 @@
 "use client";
 
-import { CastWithInteractions as NeynarCast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { Masonry } from "masonic";
 import { useInView } from "react-intersection-observer";
 import { Cast } from "../cast/cast";
@@ -10,16 +9,16 @@ import { useMemo, useRef } from "react";
 import usePrevious from "@/hooks/usePrevious";
 import { Skeleton } from "../ui/skeleton";
 import GridLoader from "react-spinners/GridLoader";
+import { NeynarCastWithSaveState } from "@/utils/saved-casts/types";
 
 export const CastGrid = (props: {
   hideChannelTag?: boolean;
   //eslint-disable-next-line
   queryKey: any[];
-  queryFn: ({
-    pageParam,
-  }: {
-    pageParam: string;
-  }) => Promise<{ casts: NeynarCast[]; cursor?: string | undefined }>;
+  queryFn: ({ pageParam }: { pageParam: string }) => Promise<{
+    casts: NeynarCastWithSaveState[];
+    cursor?: string | undefined;
+  }>;
 }) => {
   const { ref } = useInView({
     onChange: (inView) => {
@@ -74,7 +73,7 @@ export const CastGrid = (props: {
           data,
         }: {
           index: number;
-          data: NeynarCast;
+          data: NeynarCastWithSaveState;
           width: number;
         }) => {
           return <Cast cast={data} hideChannelTag={props.hideChannelTag} />;

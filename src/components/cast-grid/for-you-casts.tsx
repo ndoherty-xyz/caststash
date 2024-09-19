@@ -17,7 +17,7 @@ const ForYouCasts = (props: { fid: number }) => {
           cursor,
         };
       }}
-      queryKey={["forYouFeed", props.fid]}
+      queryKey={["casts", "for-you", props.fid]}
     />
   );
 };

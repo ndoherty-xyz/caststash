@@ -21,7 +21,7 @@ export const CollectionGrid = (props: { collectionId: string }) => {
           cursor,
         };
       }}
-      queryKey={["collectionCasts", props.collectionId]}
+      queryKey={["casts", "collection", props.collectionId]}
     />
   );
 };

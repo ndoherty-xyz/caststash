@@ -23,7 +23,7 @@ const ChannelCasts = (props: { channelIds: string[] }) => {
           cursor,
         };
       }}
-      queryKey={["channelCasts", props.channelIds]}
+      queryKey={["casts", "channel", props.channelIds]}
     />
   );
 };

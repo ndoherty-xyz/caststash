@@ -1,14 +1,18 @@
 "use server";
 
-import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { prismaClient } from "../prisma";
 import { neynarClient } from "../neynar";
+import { NeynarCastWithSaveState } from "../saved-casts/types";
+import { hydrateSaveStatesForCasts } from "../saved-casts/castSaveState";
 
 export const getCastsInCollection = async (args: {
   collectionId: string;
   cursor?: string | undefined;
   viewerFid?: number | undefined;
-}): Promise<{ casts: CastWithInteractions[]; cursor: string | undefined }> => {
+}): Promise<{
+  casts: NeynarCastWithSaveState[];
+  cursor: string | undefined;
+}> => {
   // get cast hashes for cursor from the collection
   const castHashes = await prismaClient.$kysely
     .selectFrom("saved_casts")
@@ -38,8 +42,13 @@ export const getCastsInCollection = async (args: {
       ? lastCast.created_at.toISOString()
       : undefined;
 
-  return {
+  const casts = await hydrateSaveStatesForCasts({
     casts: res.result.casts,
+    fid: args.viewerFid,
+  });
+
+  return {
+    casts,
     cursor,
   };
 };

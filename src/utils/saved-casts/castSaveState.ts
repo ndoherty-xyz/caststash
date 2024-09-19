@@ -1,29 +1,43 @@
 "use server";
 
-import { requireValidSigner } from "../neynar/utils/validateSignerUUID";
+import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { prismaClient } from "../prisma";
+import { NeynarCastWithSaveState } from "./types";
 
-export const getCollectionCastHasBeenSavedByUser = async (args: {
-  fid: number;
-  signerUUID: string;
-  castHash: string;
-}): Promise<Record<string, boolean>> => {
-  await requireValidSigner(args.signerUUID, args.fid);
+export const hydrateSaveStatesForCasts = async (args: {
+  casts: CastWithInteractions[];
+  fid?: number;
+}): Promise<NeynarCastWithSaveState[]> => {
+  if (!args.fid) {
+    return args.casts;
+  }
 
-  const ownedCollectionsCastSavedIn = await prismaClient.$kysely
+  const allHashes = args.casts.map((x) => x.hash);
+  const saveEntries = await prismaClient.$kysely
     .selectFrom("saved_casts")
     .innerJoin("collections", "saved_casts.collectionsId", "collections.id")
-    .select(["collections.id"])
-    .where("saved_casts.castHash", "=", args.castHash)
+    .select(["saved_casts.castHash", "saved_casts.collectionsId"])
+    .where("saved_casts.castHash", "in", allHashes)
     .where("collections.deleted_at", "is", null)
     .where("collections.ownerFid", "=", args.fid)
     .where("saved_casts.deleted_at", "is", null)
     .execute();
 
-  const returnVal: Record<string, boolean> = {};
+  const hashToCollectionsMap: Record<string, string[]> = {};
+  for (const entry of saveEntries) {
+    if (hashToCollectionsMap[entry.castHash]) {
+      hashToCollectionsMap[entry.castHash].push(entry.collectionsId);
+    } else {
+      hashToCollectionsMap[entry.castHash] = [entry.collectionsId];
+    }
+  }
 
-  for (const entry of ownedCollectionsCastSavedIn) {
-    returnVal[entry.id] = true;
+  const returnVal: NeynarCastWithSaveState[] = [];
+  for (const cast of args.casts) {
+    returnVal.push({
+      ...cast,
+      savedInCollectionIds: hashToCollectionsMap[cast.hash] ?? [],
+    });
   }
 
   return returnVal;

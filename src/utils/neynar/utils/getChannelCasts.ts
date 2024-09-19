@@ -1,7 +1,8 @@
 "use server";
 
-import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { neynarClient } from "@/utils/neynar";
+import { NeynarCastWithSaveState } from "@/utils/saved-casts/types";
+import { hydrateSaveStatesForCasts } from "@/utils/saved-casts/castSaveState";
 
 export const getChannelCasts = async ({
   channelIds,
@@ -13,7 +14,10 @@ export const getChannelCasts = async ({
   cursor?: string;
   viewerFid?: number | undefined;
   shouldModerate?: boolean;
-}): Promise<{ casts: CastWithInteractions[]; cursor: string | undefined }> => {
+}): Promise<{
+  casts: NeynarCastWithSaveState[];
+  cursor: string | undefined;
+}> => {
   const res = await neynarClient.fetchFeedByChannelIds(channelIds, {
     viewerFid,
     cursor: cursor ? cursor : undefined,
@@ -21,8 +25,13 @@ export const getChannelCasts = async ({
     shouldModerate,
   });
 
-  return {
+  const casts = await hydrateSaveStatesForCasts({
     casts: res.casts,
+    fid: viewerFid,
+  });
+
+  return {
+    casts,
     cursor: res.next.cursor ?? undefined,
   };
 };

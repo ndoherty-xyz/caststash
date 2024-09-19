@@ -1,18 +1,18 @@
 "use client";
 
-import { CastWithInteractions as NeynarCast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { Avatar } from "../users/avatar";
 import { Embed } from "./embed";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { SaveCastButton } from "./save-cast-button";
 import { Badge } from "../ui/badge";
+import { NeynarCastWithSaveState } from "@/utils/saved-casts/types";
 
 export const Cast = ({
   cast,
   hideChannelTag,
 }: {
-  cast: NeynarCast;
+  cast: NeynarCastWithSaveState;
   hideChannelTag?: boolean;
 }) => {
   return (
@@ -46,7 +46,10 @@ export const Cast = ({
               : {})}
           />
         </div>
-        <SaveCastButton castHash={cast.hash} />
+        <SaveCastButton
+          castHash={cast.hash}
+          savedInCollections={cast.savedInCollectionIds ?? []}
+        />
       </div>
     </div>
   );
