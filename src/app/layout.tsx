@@ -16,8 +16,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "castrest",
-  description: "A Pinterest interface for Farcaster",
+  title: "Caststash - Stash your favorite casts",
+  description: "A place to stash your favorite casts",
 };
 
 export default function RootLayout({
