@@ -1,7 +1,7 @@
 "use client";
 
 import ChannelCasts from "@/components/cast-grid/channel-casts";
-import ForYouCasts from "@/components/cast-grid/for-you-casts";
+// import ForYouCasts from "@/components/cast-grid/for-you-casts";
 import { useAuth } from "@/hooks/useAuth";
 import { useMemo } from "react";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
+// import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -10,7 +10,7 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const auth = useAuth();
+  // const auth = useAuth();
 
   const { channelId } = useParams<{
     channelId: string;
