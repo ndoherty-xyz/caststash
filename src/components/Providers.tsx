@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { NeynarContextProvider, Theme } from "@neynar/react";
 import "@neynar/react/dist/style.css";
+import { QueryNormalizerProvider } from "@normy/react-query";
 import { AuthProvider } from "@/hooks/useAuth";
 import { useState } from "react";
 
@@ -31,24 +32,66 @@ export function getQueryClient() {
 }
 
 // Create a client
-
 export const Providers = (props: React.PropsWithChildren) => {
   const [queryClient] = useState(getQueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <NeynarContextProvider
-        settings={{
-          clientId: process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID || "",
-          defaultTheme: Theme.Light,
-          eventsCallbacks: {
-            onAuthSuccess: () => {},
-            onSignout() {},
-          },
-        }}
-      >
-        <AuthProvider>{props.children}</AuthProvider>
-      </NeynarContextProvider>
-    </QueryClientProvider>
+    <QueryNormalizerProvider
+      queryClient={queryClient}
+      normalizerConfig={{
+        devLogging: true,
+        getNormalizationObjectKey: (obj) => {
+          if (
+            "object" in obj &&
+            typeof obj.object === "string" &&
+            obj.object === "cast" &&
+            "hash" in obj &&
+            typeof obj.hash === "string"
+          ) {
+            // Cast cache key
+            return `cast-${obj.hash}`;
+          }
+
+          if (
+            "object" in obj &&
+            typeof obj.object === "string" &&
+            obj.object === "user" &&
+            "fid" in obj &&
+            typeof obj.fid === "number"
+          ) {
+            // User cache key
+            return `user-${obj.fid}`;
+          }
+
+          if (
+            "object" in obj &&
+            typeof obj.object === "string" &&
+            obj.object === "cast-collection" &&
+            "id" in obj &&
+            typeof obj.id === "string"
+          ) {
+            // Cast collection cache key
+            return `cast-collection-${obj.id}`;
+          }
+
+          return undefined;
+        },
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <NeynarContextProvider
+          settings={{
+            clientId: process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID || "",
+            defaultTheme: Theme.Light,
+            eventsCallbacks: {
+              onAuthSuccess: () => {},
+              onSignout() {},
+            },
+          }}
+        >
+          <AuthProvider>{props.children}</AuthProvider>
+        </NeynarContextProvider>
+      </QueryClientProvider>
+    </QueryNormalizerProvider>
   );
 };

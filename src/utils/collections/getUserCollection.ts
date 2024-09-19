@@ -1,11 +1,12 @@
 "use server";
 
-import { collections, prismaClient } from "../prisma";
+import { prismaClient } from "../prisma";
+import { CollectionReturn } from "./types";
 
 export const getUserCollections = async (args: {
   fid: number;
-}): Promise<collections[]> => {
-  const res = await prismaClient.collections.findMany({
+}): Promise<CollectionReturn[]> => {
+  const collections = await prismaClient.collections.findMany({
     where: {
       ownerFid: args.fid,
       deleted_at: null,
@@ -15,5 +16,5 @@ export const getUserCollections = async (args: {
     },
   });
 
-  return res;
+  return collections.map((col) => ({ object: "cast-collection", ...col }));
 };

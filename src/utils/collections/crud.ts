@@ -1,14 +1,15 @@
 "use server";
 
 import { requireValidSigner } from "../neynar/utils/validateSignerUUID";
-import { collections, prismaClient } from "../prisma";
+import { prismaClient } from "../prisma";
+import { CollectionReturn } from "./types";
 
 export const createNewCollection = async (args: {
   fid: number;
   signerUUID: string;
   title: string;
   description?: string;
-}): Promise<collections> => {
+}): Promise<CollectionReturn> => {
   await requireValidSigner(args.signerUUID, args.fid);
 
   const res = await prismaClient.collections.create({
@@ -19,7 +20,10 @@ export const createNewCollection = async (args: {
     },
   });
 
-  return res;
+  return {
+    object: "cast-collection",
+    ...res,
+  };
 };
 
 export const updateCollection = async (args: {
@@ -28,7 +32,7 @@ export const updateCollection = async (args: {
   title: string;
   description?: string;
   collectionId: string;
-}): Promise<collections> => {
+}): Promise<CollectionReturn> => {
   await requireValidSigner(args.signerUUID, args.fid);
 
   const res = await prismaClient.collections.update({
@@ -43,14 +47,17 @@ export const updateCollection = async (args: {
     },
   });
 
-  return res;
+  return {
+    object: "cast-collection",
+    ...res,
+  };
 };
 
 export const deleteCollection = async (args: {
   fid: number;
   signerUUID: string;
   collectionId: string;
-}): Promise<collections> => {
+}): Promise<CollectionReturn> => {
   await requireValidSigner(args.signerUUID, args.fid);
 
   const res = await prismaClient.collections.update({
@@ -64,5 +71,8 @@ export const deleteCollection = async (args: {
     },
   });
 
-  return res;
+  return {
+    object: "cast-collection",
+    ...res,
+  };
 };

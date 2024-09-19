@@ -32,6 +32,20 @@ export const SaveCastButton = (props: {
         queryKey: ["casts", "collection", args.collectionId],
       });
     },
+    onMutate: ({ collectionId }) => {
+      return {
+        optimisticData: {
+          object: "cast",
+          hash: props.castHash,
+          name: [collectionId, ...props.savedInCollections],
+        },
+        rollbackData: {
+          object: "cast",
+          hash: props.castHash,
+          name: props.savedInCollections,
+        },
+      };
+    },
   });
 
   const removeCastMutation = useMutation({
@@ -49,6 +63,22 @@ export const SaveCastButton = (props: {
       queryClient.invalidateQueries({
         queryKey: ["casts", "collection", args.collectionId],
       });
+    },
+    onMutate: ({ collectionId }) => {
+      return {
+        optimisticData: {
+          object: "cast",
+          hash: props.castHash,
+          savedInCollectionIds: props.savedInCollections.filter(
+            (x) => x !== collectionId
+          ),
+        },
+        rollbackData: {
+          object: "cast",
+          hash: props.castHash,
+          savedInCollectionIds: props.savedInCollections,
+        },
+      };
     },
   });
 

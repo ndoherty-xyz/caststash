@@ -1,15 +1,19 @@
 "use server";
 
-import { collections, prismaClient } from "../prisma";
+import { prismaClient } from "../prisma";
+import { CollectionReturn } from "./types";
 
 export const getCollection = async (args: {
   collectionId: string;
-}): Promise<collections> => {
+}): Promise<CollectionReturn> => {
   const collection = await prismaClient.$kysely
     .selectFrom("collections")
     .selectAll()
     .where("collections.id", "=", args.collectionId)
     .executeTakeFirstOrThrow();
 
-  return collection;
+  return {
+    object: "cast-collection",
+    ...collection,
+  };
 };
