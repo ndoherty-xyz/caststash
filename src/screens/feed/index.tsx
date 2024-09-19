@@ -9,15 +9,15 @@ export default function ChannelFeed(props: { channelId?: string | undefined }) {
   const auth = useAuth();
 
   const renderedCastFeed = useMemo(() => {
-    if (auth.state?.fid && !props.channelId) {
-      return <ForYouCasts fid={auth.state.fid} />;
-    } else {
-      return (
-        <ChannelCasts
-          channelIds={[props.channelId ? props.channelId : "art"]}
-        />
-      );
-    }
+    // if (auth.state?.fid && !props.channelId) {
+    //   return <ForYouCasts fid={auth.state.fid} />;
+    // } else {
+    return (
+      <ChannelCasts
+        channelIds={[props.channelId ? props.channelId : "aesthetic"]}
+      />
+    );
+    // }
   }, [auth.state, props.channelId]);
 
   return <div className="p-6 bg-stone-100">{renderedCastFeed}</div>;

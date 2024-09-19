@@ -18,14 +18,14 @@ export default function Layout({
 
   const activeChannelId = channelId
     ? channelId
-    : auth.state?.fid
-    ? "for-you-feed"
-    : "art";
+    : // : auth.state?.fid
+      // ? "for-you-feed"
+      "aesthetic";
 
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex w-full flex-row border-b border-stone-300/25 py-1.5 overflow-x-scroll pl-6 no-scrollbar">
-        {auth.state?.fid ? (
+        {/* {auth.state?.fid ? (
           <Link href={`/feed`} scroll={false}>
             <Button
               className="m-1 ml-0"
@@ -34,9 +34,9 @@ export default function Layout({
               For You
             </Button>
           </Link>
-        ) : null}
+        ) : null} */}
 
-        {["art", "gen-art", "someone-build"].map((channelId) => {
+        {["aesthetic", "it", "art", "gen-art", "blank"].map((channelId) => {
           return (
             <Link key={channelId} href={`/feed/${channelId}`} scroll={false}>
               <Button
