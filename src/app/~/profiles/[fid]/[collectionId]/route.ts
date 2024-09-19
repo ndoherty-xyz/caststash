@@ -1,3 +1,4 @@
+import { currentDomain } from "@/utils/domain/getCurrentDomain";
 import { getUserByFid } from "@/utils/neynar/utils/getUser";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,10 +13,10 @@ export async function GET(
     const user = await getUserByFid(fidNum);
 
     return NextResponse.redirect(
-      new URL(`/${user.username}/${collectionId}`, request.url)
+      new URL(`/${user.username}/${collectionId}`, currentDomain())
     );
   } catch {
     //Error handling code
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/", currentDomain()));
   }
 }

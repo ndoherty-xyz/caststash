@@ -1,3 +1,4 @@
+import { currentDomain } from "@/utils/domain/getCurrentDomain";
 import { neynarClient } from "@/utils/neynar";
 import { prismaClient } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,18 +16,21 @@ export async function GET(
 
   return NextResponse.json(
     {
-      name: `Stash cast to ${collection.title}`,
+      name: `Stash cast`,
       icon: "squirrel",
-      description: `Stashes this cast to your collection: ${collection.title}`,
+      description: `Stash cast to ${collection.title}`,
       aboutUrl: "https://caststash.com",
       action: {
         type: "post",
-        postUrl: `https://caststash.com/api/cast-action/save/${collection.id}`,
+        postUrl: `${currentDomain()}/api/cast-action/save/${collection.id}`,
       },
     },
     { status: 200 }
   );
 }
+
+// ("https://warpcast.com/~/add-cast-action?actionType=post&name=Followers&icon=person&postUrl=https%3A%2F%2F05d3-2405-201-800c-6a-70a7-56e4-516c-2d3c.ngrok-free.app%2Fapi%2Ffollowers");
+// ("https://warpcast.com/~/add-cast-action?name=Stash+cast&icon=squirrel&description=Stashes+this+cast+to%3A+%3E%3E+vibes+%3C%3C&aboutUrl=https%3A%2F%2Fcaststash.com&actionType=post&postUrl=https%3A%2F%2Fcaststash.com%2Fapi%2Fcast-action%2Fsave%2F02d8bc4f-ebb6-4ef0-808d-a431d6a4f605");
 
 export async function POST(
   req: NextRequest,
@@ -78,7 +82,9 @@ export async function POST(
     {
       type: "message",
       message: `Cast stashed to ${collection.title}`,
-      link: `https://caststash.com/~/profiles/${result.action.interactor.fid}/${collectionId}`,
+      link: `${currentDomain()}/~/profiles/${
+        result.action.interactor.fid
+      }/${collectionId}`,
     },
     { status: 200 }
   );
