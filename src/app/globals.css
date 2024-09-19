@@ -42,4 +42,11 @@ body {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  .standard-outline {
+    outline: solid;
+    outline-width: 1px;
+    outline-offset: -1;
+    outline-color: rgb(231 229 228 / 0.4);
+  }
 }

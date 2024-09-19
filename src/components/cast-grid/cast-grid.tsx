@@ -12,6 +12,7 @@ import { Skeleton } from "../ui/skeleton";
 import GridLoader from "react-spinners/GridLoader";
 
 export const CastGrid = (props: {
+  hideChannelTag?: boolean;
   //eslint-disable-next-line
   queryKey: any[];
   queryFn: ({
@@ -33,7 +34,6 @@ export const CastGrid = (props: {
     queryFn: props.queryFn,
     initialPageParam: "",
     getNextPageParam(lastPage) {
-      console.log(lastPage.cursor);
       return lastPage.cursor;
     },
     select: castSelect,
@@ -77,7 +77,7 @@ export const CastGrid = (props: {
           data: NeynarCast;
           width: number;
         }) => {
-          return <Cast cast={data} />;
+          return <Cast cast={data} hideChannelTag={props.hideChannelTag} />;
         }}
       />
       <div ref={ref} className="absolute left-0 w-full bottom-[500px]" />

@@ -47,7 +47,6 @@ export const SaveCastButton = (props: { castHash: string }) => {
       });
     },
     onSuccess(_, args) {
-      console.log(args);
       queryClient.invalidateQueries({
         queryKey: ["castSavedIn", props.castHash],
       });

@@ -6,8 +6,15 @@ import { Embed } from "./embed";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { SaveCastButton } from "./save-cast-button";
+import { Badge } from "../ui/badge";
 
-export const Cast = ({ cast }: { cast: NeynarCast }) => {
+export const Cast = ({
+  cast,
+  hideChannelTag,
+}: {
+  cast: NeynarCast;
+  hideChannelTag?: boolean;
+}) => {
   return (
     <div className="flex flex-col gap-2 break-words bg-white rounded-2xl p-4 border border-stone-300/25">
       <Link href={`/${cast.author.username}`}>
@@ -23,6 +30,12 @@ export const Cast = ({ cast }: { cast: NeynarCast }) => {
       {cast.embeds.map((x) => (
         <Embed embed={x} key={"cast_id" in x ? x.cast_id.hash : x.url} />
       ))}
+
+      {cast.channel && !hideChannelTag ? (
+        <div className="flex flex-row">
+          <Badge variant="secondary">#{cast.channel.id}</Badge>
+        </div>
+      ) : null}
 
       <div className="flex flex-row pt-3 w-full items-center justify-between gap-2">
         <div className="flex flex-row gap-1">

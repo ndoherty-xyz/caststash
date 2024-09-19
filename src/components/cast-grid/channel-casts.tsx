@@ -9,6 +9,7 @@ const ChannelCasts = (props: { channelIds: string[] }) => {
 
   return (
     <CastGrid
+      hideChannelTag={true}
       queryFn={async ({ pageParam }) => {
         const { casts, cursor } = await getChannelCasts({
           channelIds: props.channelIds,

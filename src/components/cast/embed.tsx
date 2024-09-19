@@ -39,7 +39,10 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
         <Image
           unoptimized
           alt=""
-          className="rounded-lg"
+          className="rounded-lg standard-outline"
+          style={{
+            outlineWidth: 1,
+          }}
           fill
           src={props.embed.url}
         />
@@ -66,8 +69,8 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
         }}
       >
         <video
-          style={{ width: "100%", aspectRatio }}
-          className="rounded-lg"
+          className="rounded-lg standard-outline bg-stone-200/25"
+          style={{ width: "100%", aspectRatio, outlineWidth: 1 }}
           src={props.embed.url}
           controls
         />
