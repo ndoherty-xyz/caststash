@@ -32,10 +32,11 @@ export const Cast = ({
       ))}
 
       {cast.channel && !hideChannelTag ? (
-        <Link href={`/feed/${cast.channel.id}`}>
-          <div className="flex flex-row cursor-pointer">
-            <Badge variant="secondary">#{cast.channel.id}</Badge>
-          </div>
+        <Link
+          href={`/feed/${cast.channel.id}`}
+          className="w-fit cursor-pointer"
+        >
+          <Badge variant="secondary">#{cast.channel.id}</Badge>
         </Link>
       ) : null}
 

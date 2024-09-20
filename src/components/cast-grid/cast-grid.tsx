@@ -1,15 +1,13 @@
 "use client";
 
-import { Masonry } from "masonic";
-import { useInView } from "react-intersection-observer";
 import { Cast } from "../cast/cast";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { castSelect } from "@/utils/paginatedCastQuery";
-import { useMemo, useRef } from "react";
-import usePrevious from "@/hooks/usePrevious";
+import { useMemo } from "react";
 import { Skeleton } from "../ui/skeleton";
 import GridLoader from "react-spinners/GridLoader";
 import { NeynarCastWithSaveState } from "@/utils/saved-casts/types";
+import { CustomMasonry } from "../custom-masonry";
 
 export const CastGrid = (props: {
   hideChannelTag?: boolean;
@@ -20,14 +18,6 @@ export const CastGrid = (props: {
     cursor?: string | undefined;
   }>;
 }) => {
-  const { ref } = useInView({
-    onChange: (inView) => {
-      if (inView) {
-        castQuery.fetchNextPage();
-      }
-    },
-  });
-
   const castQuery = useInfiniteQuery({
     queryKey: props.queryKey,
     queryFn: props.queryFn,
@@ -37,21 +27,6 @@ export const CastGrid = (props: {
     },
     select: castSelect,
   });
-
-  const itemsCount = castQuery.data?.length;
-  const prevItemsCount = usePrevious(itemsCount);
-
-  const removesCount = useRef(0);
-
-  const gridKeyPostfix = useMemo(() => {
-    if (!itemsCount || !prevItemsCount) return removesCount.current;
-    if (itemsCount < prevItemsCount) {
-      removesCount.current += 1;
-      return removesCount.current;
-    }
-
-    return removesCount.current;
-  }, [itemsCount, prevItemsCount]);
 
   if (castQuery.isLoading) {
     return <SkeletonGrid />;
@@ -63,23 +38,33 @@ export const CastGrid = (props: {
 
   return (
     <div className="relative">
-      <Masonry
-        key={gridKeyPostfix}
-        overscanBy={2}
+      <CustomMasonry
+        fetchMore={() => {
+          castQuery.fetchNextPage();
+        }}
+        scrollFps={6}
+        overscanBy={3}
         maxColumnCount={3}
         columnGutter={20}
         items={castQuery.data ?? []}
         render={({
           data,
+          index,
         }: {
           index: number;
           data: NeynarCastWithSaveState;
           width: number;
         }) => {
-          return <Cast cast={data} hideChannelTag={props.hideChannelTag} />;
+          return (
+            <Cast
+              key={`${data.hash}-${index}`}
+              cast={data}
+              hideChannelTag={props.hideChannelTag}
+            />
+          );
         }}
       />
-      <div ref={ref} className="absolute left-0 w-full bottom-[500px]" />
+      {/* <div ref={ref} className="absolute left-0 w-full bottom-[500px]" /> */}
       {castQuery.isLoading || castQuery.isFetchingNextPage ? (
         <div className="py-8 w-full flex justify-center items-center">
           <GridLoader color="#00000030" />
@@ -98,7 +83,7 @@ export const SkeletonGrid = () => {
   }, []);
 
   return (
-    <Masonry
+    <CustomMasonry
       overscanBy={2}
       maxColumnCount={3}
       columnGutter={20}

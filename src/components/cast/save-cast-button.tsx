@@ -88,8 +88,6 @@ export const SaveCastButton = (props: {
     },
   });
 
-  console.log(props.saveCount);
-
   const userCollectionsQuery = useQuery({
     queryKey: ["userCollections", auth.state?.fid],
     queryFn: async () => {
