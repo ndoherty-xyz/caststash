@@ -111,6 +111,8 @@ export const LikeCastButton = (props: {
         }
       >
         <Heart
+          absoluteStrokeWidth
+          strokeWidth={1.5}
           className={`mt-0.5 ${hover ? "text-red-500" : ""}`}
           size={16}
           {...(props.viewerContext?.liked

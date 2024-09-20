@@ -44,7 +44,7 @@ export const CastGrid = (props: {
         }}
         scrollFps={6}
         overscanBy={3}
-        maxColumnCount={3}
+        maxColumnCount={4}
         columnGutter={20}
         items={castQuery.data ?? []}
         render={({
@@ -77,7 +77,7 @@ export const CastGrid = (props: {
 export const SkeletonGrid = () => {
   // generate a list of random heights
   const heights = useMemo(() => {
-    return Array.from({ length: 10 }, () => ({
+    return Array.from({ length: 15 }, () => ({
       height: Math.floor(Math.random() * 300 + 150),
     }));
   }, []);
@@ -85,7 +85,7 @@ export const SkeletonGrid = () => {
   return (
     <CustomMasonry
       overscanBy={2}
-      maxColumnCount={3}
+      maxColumnCount={4}
       columnGutter={20}
       items={heights}
       render={({

@@ -110,9 +110,19 @@ export const SaveCastButton = (props: {
         <div className="flex flex-row gap-2 items-center justify-center">
           <Button size="icon" variant="ghost">
             {isSavedAnywhere ? (
-              <Bookmark className="fill-foreground" size={16} />
+              <Bookmark
+                className="fill-foreground mt-0.5"
+                size={16}
+                strokeWidth={1.5}
+                absoluteStrokeWidth
+              />
             ) : (
-              <Bookmark size={16} />
+              <Bookmark
+                size={16}
+                className="mt-0.5"
+                strokeWidth={1.5}
+                absoluteStrokeWidth
+              />
             )}
           </Button>
           {props.saveCount ? (

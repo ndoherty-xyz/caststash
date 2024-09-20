@@ -80,7 +80,6 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
   } else if (!!props.embed.metadata.html) {
     const image = props.embed.metadata.html.ogImage?.[0]?.url;
     const title = props.embed.metadata.html.ogTitle;
-    const site = props.embed.metadata.html.ogSiteName;
     const desc = props.embed.metadata.html.ogDescription;
 
     return (
@@ -105,7 +104,6 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
           <div className="p-4 flex flex-col justify-center">
             <p className="text-sm font-semibold">{title}</p>
             <p className="text-xs line-clamp-2">{desc}</p>
-            <p>{site}</p>
           </div>
         </div>
       </Link>
