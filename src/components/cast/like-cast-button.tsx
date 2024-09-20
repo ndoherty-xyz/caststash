@@ -103,7 +103,7 @@ export const LikeCastButton = (props: {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         variant="ghost"
-        className="hover:bg-red-100"
+        className="hover:bg-red-100 dark:hover:bg-red-950"
         onClick={
           props.viewerContext?.liked
             ? () => unlikeCastMutation.mutateAsync({ castHash: props.castHash })

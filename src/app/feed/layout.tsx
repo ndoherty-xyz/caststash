@@ -23,8 +23,8 @@ export default function Layout({
       "aesthetic";
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex w-full flex-row border-b border-stone-300/25 py-1.5 overflow-x-scroll pl-6 no-scrollbar">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-stone-950">
+      <div className="flex w-full flex-row border-b border-stone-300/25 dark:border-stone-400/25 py-1.5 overflow-x-scroll pl-6 no-scrollbar">
         {/* {auth.state?.fid ? (
           <Link href={`/feed`} scroll={false}>
             <Button

@@ -23,5 +23,7 @@ export default function ChannelFeed(props: { channelId?: string | undefined }) {
     props.channelId,
   ]);
 
-  return <div className="p-6 bg-stone-100">{renderedCastFeed}</div>;
+  return (
+    <div className="p-6 bg-stone-100 dark:bg-stone-950">{renderedCastFeed}</div>
+  );
 }

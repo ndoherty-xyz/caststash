@@ -112,7 +112,7 @@ export const SaveCastButton = (props: {
         <div className="flex flex-row gap-2 items-center justify-center">
           <Button size="icon" variant="ghost">
             {isSavedAnywhere ? (
-              <Bookmark fill="#171717" size={16} />
+              <Bookmark className="fill-foreground" size={16} />
             ) : (
               <Bookmark size={16} />
             )}

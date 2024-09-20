@@ -33,7 +33,7 @@ export const ProfileHeader = (props: {
     userCollectionsQuery.data?.find((x) => x.id === props.activeCollection);
 
   return (
-    <div className="flex flex-col items-center bg-white min-h-full">
+    <div className="flex flex-col items-center bg-white dark:bg-stone-950 min-h-full">
       <div className="flex flex-col items-center py-8 gap-1">
         <Avatar pfpUrl={props.user.pfp_url} size="2xl" />
 
@@ -48,7 +48,7 @@ export const ProfileHeader = (props: {
         </div>
       </div>
 
-      <div className="flex w-full flex-row border-y border-stone-300/25 py-1.5 overflow-x-scroll pl-6 no-scrollbar">
+      <div className="flex w-full flex-row border-y border-stone-300/25 dark:border-stone-400/25 py-1.5 overflow-x-scroll pl-6 no-scrollbar">
         {auth.state?.fid === props.user.fid ? <NewCollectionModal /> : null}
         <Link href={`/${username}`} scroll={false}>
           <Button
@@ -79,11 +79,11 @@ export const ProfileHeader = (props: {
       </div>
 
       {activeCollectionObj ? (
-        <div className="flex w-full flex-row justify-between gap-12 items-center border-y border-stone-300/25 py-4 px-6">
+        <div className="flex w-full flex-row justify-between gap-12 items-center border-y border-stone-300/25 dark:border-stone-400/25 py-4 px-6">
           <div className="flex-col gap-1">
             <p className="font-semibold">{activeCollectionObj.title}</p>
             {activeCollectionObj.description ? (
-              <p className="text-sm text-stone-900/60">
+              <p className="text-sm text-stone-950/60 dark:text-stone-50/60">
                 {activeCollectionObj.description}
               </p>
             ) : null}

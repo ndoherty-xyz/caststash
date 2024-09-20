@@ -16,7 +16,7 @@ export const Cast = ({
   hideChannelTag?: boolean;
 }) => {
   return (
-    <div className="flex flex-col gap-2 break-words bg-white rounded-2xl p-4 border border-stone-300/25">
+    <div className="flex flex-col gap-2 break-words bg-white dark:bg-stone-800/70 rounded-2xl p-4 border border-stone-300/25 dark:border-stone-900/25">
       <Link href={`/${cast.author.username}`}>
         <div className="flex flex-row gap-2 items-center">
           <Avatar pfpUrl={cast.author.pfp_url} size="md" />
