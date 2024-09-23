@@ -38,6 +38,7 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
         }}
       >
         <Image
+          key={props.embed.url}
           unoptimized
           alt=""
           className="rounded-lg standard-outline"
