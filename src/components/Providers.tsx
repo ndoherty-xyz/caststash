@@ -55,6 +55,17 @@ export const Providers = (props: React.PropsWithChildren) => {
           if (
             "object" in obj &&
             typeof obj.object === "string" &&
+            obj.object === "channel" &&
+            "hash" in obj &&
+            typeof obj.id === "string"
+          ) {
+            // Channel cache key
+            return `channel-${obj.id}`;
+          }
+
+          if (
+            "object" in obj &&
+            typeof obj.object === "string" &&
             obj.object === "user" &&
             "fid" in obj &&
             typeof obj.fid === "number"

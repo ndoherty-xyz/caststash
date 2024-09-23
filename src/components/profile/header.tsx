@@ -48,7 +48,7 @@ export const ProfileHeader = (props: {
         </div>
       </div>
 
-      <div className="flex w-full flex-row border-y border-stone-300/25 dark:border-stone-400/25 py-1.5 overflow-x-scroll pl-6 no-scrollbar">
+      <div className="flex w-full flex-row border-y border-stone-300/25 dark:border-stone-400/25 py-1.5 overflow-x-scroll pl-3 sm:pl-6 no-scrollbar">
         {auth.state?.fid === props.user.fid ? <NewCollectionModal /> : null}
         <Link href={`/${username}`} scroll={false}>
           <Button

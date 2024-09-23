@@ -45,7 +45,7 @@ export const CastGrid = (props: {
         scrollFps={6}
         overscanBy={3}
         maxColumnCount={4}
-        columnGutter={20}
+        columnGutter={16}
         items={castQuery.data ?? []}
         render={({
           data,

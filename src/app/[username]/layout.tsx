@@ -41,7 +41,7 @@ export default function Layout({
         activeCollection={activeCollection}
         user={userQuery.data}
       />
-      <div className="p-6 bg-stone-100 flex-grow dark:bg-stone-950">
+      <div className="p-3 sm:p-6 bg-stone-100 flex-grow dark:bg-stone-950">
         {children}
       </div>
     </div>
