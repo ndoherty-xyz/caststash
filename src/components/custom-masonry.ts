@@ -45,6 +45,7 @@ export function CustomMasonry<Item>(
   );
 
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
+    isItemLoaded: (index, items) => !!items[index],
     ...(props.fetchMoreThreshold
       ? { threshold: props.fetchMoreThreshold }
       : {}),
