@@ -1,19 +1,19 @@
-import {
-  EmbedCastId,
-  EmbeddedCast,
-  EmbedUrl,
-} from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import Image from "next/image";
 import { QuoteCast } from "./quote-cast";
 import Link from "next/link";
+import {
+  EmbedCast,
+  EmbedUrl,
+  Embed as NeynarEmbed,
+} from "@neynar/nodejs-sdk/build/api";
 
 type NeynarVideoTypeFix = {
   streams: { height_px?: number; width_px: number }[];
 };
 
-export const Embed = (props: { embed: EmbeddedCast }) => {
+export const Embed = (props: { embed: NeynarEmbed }) => {
   if ("cast_id" in props.embed) {
-    return <CastEmbed embed={props.embed as EmbedCastId} />;
+    return <CastEmbed embed={props.embed as EmbedCast} />;
   } else {
     return <UrlEmbed embed={props.embed as EmbedUrl} />;
   }
@@ -114,6 +114,6 @@ const UrlEmbed = (props: { embed: EmbedUrl }) => {
   return <p>{props.embed.url}</p>;
 };
 
-const CastEmbed = (props: { embed: EmbedCastId }) => {
-  return <QuoteCast hash={props.embed.cast_id.hash} />;
+const CastEmbed = (props: { embed: EmbedCast }) => {
+  return <QuoteCast hash={props.embed.cast.hash} />;
 };

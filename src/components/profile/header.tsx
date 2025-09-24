@@ -1,4 +1,3 @@
-import { User } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { Avatar } from "../users/avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import { Badge } from "../ui/badge";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { collections } from "@/utils/prisma";
+import { User } from "@neynar/nodejs-sdk/build/api";
 
 export const ProfileHeader = (props: {
   user: User;
