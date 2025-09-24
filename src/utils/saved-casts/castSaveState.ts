@@ -1,11 +1,11 @@
 "use server";
 
-import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import { Cast } from "@neynar/nodejs-sdk/build/api";
 import { prismaClient } from "../prisma";
 import { NeynarCastWithSaveState } from "./types";
 
 export const hydrateSaveStatesForCasts = async (args: {
-  casts: CastWithInteractions[];
+  casts: Cast[];
   fid?: number;
 }): Promise<NeynarCastWithSaveState[]> => {
   const allHashes = args.casts.map((x) => x.hash);

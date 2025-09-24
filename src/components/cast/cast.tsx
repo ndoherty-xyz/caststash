@@ -34,7 +34,7 @@ export const Cast = ({
 
       {cast.text ? <p className="text-sm">{cast.text}</p> : null}
       {cast.embeds.map((x) => (
-        <Embed embed={x} key={"cast_id" in x ? x.cast_id.hash : x.url} />
+        <Embed embed={x} key={"cast" in x ? x.cast.hash : x.url} />
       ))}
 
       {cast.channel && !hideChannelTag ? (

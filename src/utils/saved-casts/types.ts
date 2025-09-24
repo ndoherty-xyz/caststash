@@ -1,6 +1,6 @@
-import { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import { Cast } from "@neynar/nodejs-sdk/build/api";
 
-export type NeynarCastWithSaveState = CastWithInteractions & {
+export type NeynarCastWithSaveState = Cast & {
   savedInCollectionIds?: string[];
   saveCount: number;
 };
