@@ -18,7 +18,8 @@ export const getChannelCasts = async ({
   casts: NeynarCastWithSaveState[];
   cursor: string | undefined;
 }> => {
-  const res = await neynarClient.fetchFeedByChannelIds(channelIds, {
+  const res = await neynarClient.fetchFeedByChannelIds({
+    channelIds,
     viewerFid,
     cursor: cursor ? cursor : undefined,
     limit: 20,

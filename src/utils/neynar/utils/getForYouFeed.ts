@@ -14,7 +14,8 @@ export const getForYouFeed = async ({
   casts: NeynarCastWithSaveState[];
   cursor: string | undefined;
 }> => {
-  const res = await neynarClient.fetchFeedForYou(fid, {
+  const res = await neynarClient.fetchFeedForYou({
+    fid,
     viewerFid: fid,
     cursor: cursor ? cursor : undefined,
     limit: 20,

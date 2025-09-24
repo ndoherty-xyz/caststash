@@ -29,10 +29,10 @@ export const getCastsInCollection = async (args: {
     .limit(20)
     .execute();
 
-  const res = await neynarClient.fetchBulkCasts(
-    castHashes.map((x) => x.castHash),
-    { viewerFid: args.viewerFid }
-  );
+  const res = await neynarClient.fetchBulkCasts({
+    casts: castHashes.map((x) => x.castHash),
+    viewerFid: args.viewerFid,
+  });
 
   const lastCast = castHashes.at(-1);
   const cursor =

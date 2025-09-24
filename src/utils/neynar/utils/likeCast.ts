@@ -3,7 +3,7 @@
 import { NeynarCastWithSaveState } from "@/utils/saved-casts/types";
 import { neynarClient } from "..";
 import { requireValidSigner } from "./validateSignerUUID";
-import { ReactionType } from "@neynar/nodejs-sdk";
+import { ReactionType } from "@neynar/nodejs-sdk/build/api";
 
 export const likeCast = async (args: {
   castHash: string;
@@ -16,11 +16,11 @@ export const likeCast = async (args: {
 > => {
   await requireValidSigner(args.signerUUID, args.userFid);
 
-  const res = await neynarClient.publishReactionToCast(
-    args.signerUUID,
-    ReactionType.Like,
-    args.castHash
-  );
+  const res = await neynarClient.publishReaction({
+    signerUuid: args.signerUUID,
+    reactionType: ReactionType.Like,
+    target: args.castHash,
+  });
 
   if (res.success) {
     return {
@@ -47,11 +47,11 @@ export const unlikeCast = async (args: {
 > => {
   await requireValidSigner(args.signerUUID, args.userFid);
 
-  const res = await neynarClient.deleteReactionFromCast(
-    args.signerUUID,
-    ReactionType.Like,
-    args.castHash
-  );
+  const res = await neynarClient.deleteReaction({
+    signerUuid: args.signerUUID,
+    reactionType: ReactionType.Like,
+    target: args.castHash,
+  });
 
   if (res.success) {
     return {

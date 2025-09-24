@@ -39,9 +39,9 @@ export async function POST(
   const { collectionId } = params;
 
   const body = await req.json();
-  const result = await neynarClient.validateFrameAction(
-    body.trustedData.messageBytes
-  );
+  const result = await neynarClient.validateFrameAction({
+    messageBytesInHex: body.trustedData.messageBytes,
+  });
 
   if (!result.valid) throw new Error("Not a valid signature!");
 

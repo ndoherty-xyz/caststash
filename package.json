@@ -14,7 +14,7 @@
     "db:migrate:deploy": "npx prisma migrate deploy --schema src/utils/prisma/schema.prisma"
   },
   "dependencies": {
-    "@neynar/nodejs-sdk": "^1.52.1",
+    "@neynar/nodejs-sdk": "3.34.0",
     "@neynar/react": "^0.9.4",
     "@normy/react-query": "^0.14.3",
     "@prisma/client": "^5.19.1",

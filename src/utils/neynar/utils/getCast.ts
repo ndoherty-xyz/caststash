@@ -1,7 +1,7 @@
 "use server";
 
-import { Cast } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import { neynarClient } from "@/utils/neynar";
+import { Cast } from "@neynar/nodejs-sdk/build/api";
 import assert from "node:assert";
 
 export const getCast = async ({
@@ -9,7 +9,7 @@ export const getCast = async ({
 }: {
   castHash: string;
 }): Promise<Cast> => {
-  const res = await neynarClient.fetchBulkCasts([castHash], {});
+  const res = await neynarClient.fetchBulkCasts({ casts: [castHash] });
 
   assert(res.result.casts[0]);
   return res.result.casts[0];
